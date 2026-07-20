@@ -12,16 +12,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: SFTP Upload
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
         with:
           server: ${{ secrets.SFTP_SERVER }}
           username: ${{ secrets.SFTP_USERNAME }}
           password: ${{ secrets.SFTP_PASSWORD }}
-          protocol: sftp
           port: 22
-          local-dir: ./
-          server-dir: ./
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/.github/**
+          local_path: './*'
+          remote_path: './'
+          sftp_only: true
