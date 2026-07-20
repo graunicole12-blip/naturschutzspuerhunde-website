@@ -11,13 +11,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: SFTP Upload
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+      - name: FTPS Upload
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.SFTP_SERVER }}
           username: ${{ secrets.SFTP_USERNAME }}
           password: ${{ secrets.SFTP_PASSWORD }}
-          port: 22
-          local_path: './*'
-          remote_path: './'
-          sftp_only: true
+          protocol: ftps
+          port: 21
+          local-dir: ./
+          server-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
