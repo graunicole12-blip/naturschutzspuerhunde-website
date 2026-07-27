@@ -1,0 +1,22 @@
+name: Task
+description: Eine einzelne, abgeschlossene Arbeitsaufgabe (oft Teil eines Epics)
+title: ""
+labels: ["task"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Beschreibung
+      description: Was genau soll gemacht werden?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Abnahmekriterien
+      description: Woran erkennt man, dass die Aufgabe fertig ist?
+  - type: input
+    id: epic
+    attributes:
+      label: Gehört zu Epic
+      description: Issue-Nummer des übergeordneten Epics, falls vorhanden (z.B. "#5")
