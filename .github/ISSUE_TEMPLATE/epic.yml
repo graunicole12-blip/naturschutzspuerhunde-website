@@ -16,6 +16,13 @@ body:
       label: Kontext / Hintergrund
       description: Warum ist das wichtig? Gibt es Vorgaben oder Einschränkungen?
   - type: textarea
+    id: user_stories
+    attributes:
+      label: User Stories
+      description: Wer möchte was und warum? (eine Story pro Zeile)
+      value: |
+        - Als ... möchte ich ..., damit ...
+  - type: textarea
     id: tasks
     attributes:
       label: Teilaufgaben
@@ -30,3 +37,8 @@ body:
     attributes:
       label: Abnahmekriterien
       description: Wann gilt das Epic als abgeschlossen?
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of Scope
+      description: Was gehört explizit NICHT zu diesem Epic?
