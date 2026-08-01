@@ -6,6 +6,14 @@
 - Technische Umsetzung (Hex-Codes, Font-Stacks) liegt als CSS-Variablen in `assets/css/variables.css` – bei Layout-/Styling-Arbeiten immer von dort referenzieren statt Werte neu einzutippen.
 - Quelle ist das Canva Brand Kit «Naturschützspürhunde»; bei Änderungen dort zuerst `docs/corporate-design.md`, danach die CSS-Variablen nachführen.
 
+## Entwickler-Workflow
+
+- Seit 2026-08-01: neue Arbeit (ab Epic #4 / Issue #5) läuft über Feature-Branches + Pull Request, nicht mehr direkt auf `main`.
+- Branch-Namensschema: `issue-<Nummer>-kurzbeschreibung` (z.B. `issue-5-db-schema-login`).
+- Pro GitHub-Issue ein eigener Branch; PR beschreibt, welches Issue er abschliesst (`Closes #<Nummer>`), damit das Issue beim Merge automatisch schliesst.
+- Deploy (`deploy.yml`) läuft weiterhin nur bei Push auf `main` – Feature-Branches lösen keinen Live-Deploy aus, erst der Merge des PRs.
+- Frühere Arbeit (Testseite, DB-Test, Epics-Setup) lief noch direkt auf `main` – das bleibt so, wird nicht nachträglich umgebaut.
+
 ## Sicherheit: Credentials
 
 - Niemals Zugangsdaten (Passwörter, API-Keys, Tokens, Server-/FTP-Zugangsdaten) im Klartext im Repo speichern — weder in Code, Workflows, Kommentaren, Dokumentation noch in Konfigurationsdateien.
