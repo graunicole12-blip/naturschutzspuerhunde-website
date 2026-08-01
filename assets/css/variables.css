@@ -1,0 +1,44 @@
+/*
+ * CI/CD-Variablen – Naturschutzspürhunde Schweiz
+ * Quelle: Canva Brand Kit «Naturschützspürhunde» (siehe docs/corporate-design.md)
+ * Diese Datei ist die technische Referenz für Farben und Schriften.
+ * Änderungen zuerst in docs/corporate-design.md dokumentieren, dann hier nachführen.
+ */
+
+:root {
+  /* Farben */
+  --color-primary: #373a20;        /* Dunkelolive – Haupttextfarbe */
+  --color-primary-dark: #2e2f1a;   /* Fast-Schwarzoliv – Kontur/dunkle Flächen */
+  --color-accent-red: #b82020;     /* Rot – Call-to-Action, "Schweiz"-Schriftzug */
+  --color-accent-rust: #a33122;    /* Rostrot/Terrakotta – sekundärer Akzent, Hover */
+  --color-secondary-gold: #665418; /* Olivgold – Icons, Rahmenlinien */
+  --color-secondary-khaki: #928259;/* Olivkhaki – Sekundärtext, Trennlinien */
+  --color-neutral-cream: #e3d7ce;  /* Creme – heller Hintergrund, Karten */
+  --color-neutral-tan: #d7bf9e;    /* Beige/Tan – Hintergrundflächen */
+  --color-neutral-blue-light: #bcc2cc; /* Blaugrau hell – Hintergrund, Trennflächen */
+  --color-neutral-blue: #abaeb9;   /* Blaugrau – sekundäre Rahmen/Icons */
+  --color-accent-mauve-dark: #5e4150; /* Mauve dunkel – Akzente, Footer */
+  --color-accent-mauve: #8a5771;   /* Mauve/Beere – Akzente, Hover */
+
+  /* Typografie */
+  --font-titel: "Roboto Condensed", sans-serif;
+  --font-text: "Glacial Indifference", sans-serif;
+
+  --font-size-titel: 42px;
+  --font-weight-titel: 700;
+
+  --font-size-untertitel: 32px;
+  --font-weight-untertitel: 400;
+
+  --font-size-ueberschrift: 32px;
+  --font-weight-ueberschrift: 400;
+
+  --font-size-zwischenueberschrift: 24px; /* Annahme, im Brand Kit nicht gesetzt */
+  --font-size-abschnitt-kopfzeile: 18px;  /* Annahme, im Brand Kit nicht gesetzt */
+
+  --font-size-text: 14px;
+  --font-weight-text: 400;
+
+  --font-size-zitat: 16px;
+  --font-style-zitat: italic;
+}

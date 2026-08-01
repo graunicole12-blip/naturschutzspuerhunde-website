@@ -1,5 +1,11 @@
 # Projekt-Regeln: Naturschutzspürhunde-Website
 
+## Corporate Design (CI/CD)
+
+- Für Farben, Schriften und Logo-Vorgaben immer `docs/corporate-design.md` konsultieren und einhalten.
+- Technische Umsetzung (Hex-Codes, Font-Stacks) liegt als CSS-Variablen in `assets/css/variables.css` – bei Layout-/Styling-Arbeiten immer von dort referenzieren statt Werte neu einzutippen.
+- Quelle ist das Canva Brand Kit «Naturschützspürhunde»; bei Änderungen dort zuerst `docs/corporate-design.md`, danach die CSS-Variablen nachführen.
+
 ## Sicherheit: Credentials
 
 - Niemals Zugangsdaten (Passwörter, API-Keys, Tokens, Server-/FTP-Zugangsdaten) im Klartext im Repo speichern — weder in Code, Workflows, Kommentaren, Dokumentation noch in Konfigurationsdateien.
