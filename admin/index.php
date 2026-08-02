@@ -7,6 +7,7 @@ requireLogin();
 
 $newsCount = (int) getDb()->query('SELECT COUNT(*) FROM news')->fetchColumn();
 $dogsCount = (int) getDb()->query('SELECT COUNT(*) FROM dogs')->fetchColumn();
+$projectsCount = (int) getDb()->query('SELECT COUNT(*) FROM projects')->fetchColumn();
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -33,7 +34,7 @@ $dogsCount = (int) getDb()->query('SELECT COUNT(*) FROM dogs')->fetchColumn();
       <a href="/admin/edit.php">Startseite</a>
       <a href="#">&Uuml;ber uns</a>
       <a href="#">Naturschutzsp&uuml;rhunde</a>
-      <a href="#">Projekte</a>
+      <a href="/admin/projects.php">Projekte</a>
       <a href="/admin/dogs.php">Unsere Hunde</a>
       <a href="#">Ausbildung</a>
       <a href="#">Unterst&uuml;tzen</a>
@@ -47,6 +48,7 @@ $dogsCount = (int) getDb()->query('SELECT COUNT(*) FROM dogs')->fetchColumn();
     <p>Dashboard-Grundger&uuml;st. Inhalte-Bearbeitung folgt in weiteren Ausbaustufen.</p>
     <p><?php echo $newsCount; ?> News-Beitr&auml;ge &middot; <a href="/admin/news.php">verwalten</a></p>
     <p><?php echo $dogsCount; ?> Hundeprofile &middot; <a href="/admin/dogs.php">verwalten</a></p>
+    <p><?php echo $projectsCount; ?> Projekte &middot; <a href="/admin/projects.php">verwalten</a></p>
   </div>
 </body>
 </html>
