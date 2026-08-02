@@ -14,6 +14,12 @@
 - Deploy (`deploy.yml`) läuft weiterhin nur bei Push auf `main` – Feature-Branches lösen keinen Live-Deploy aus, erst der Merge des PRs.
 - Frühere Arbeit (Testseite, DB-Test, Epics-Setup) lief noch direkt auf `main` – das bleibt so, wird nicht nachträglich umgebaut.
 
+## Dokumentation der Anforderungen
+
+- Seit 2026-08-02: Quelle für Anwendungsfälle/Epics ist primär GitHub (Issues + PRs) — dort entsteht der aktuelle Stand automatisch mit dem Code.
+- Zusätzlich existiert ein Google Doc `epics-website-naturschutzspuerhunde` (Drive-Ordner der Website) als konsolidierte Anforderungsübersicht. Dieses Doc **nach jeder wesentlichen Änderung an Epics/Issues manuell nachziehen** (neue Sub-Issues, Status-Änderungen wie "zurückgestellt", abgeschlossene Teilaufgaben) — keine echte Automatisierung möglich, da der verbundene Google-Drive-Connector nur neue Dateien anlegen, aber keine bestehende Datei in-place bearbeiten kann. Aktualisierung erfolgt daher als neue Version (`...-vN.md`) im selben Ordner.
+- Bei jeder Doc-Aktualisierung ein Änderungsdatum/-hinweis im Doc ergänzen, damit nachvollziehbar bleibt, wann zuletzt synchronisiert wurde.
+
 ## Sicherheit: Credentials
 
 - Niemals Zugangsdaten (Passwörter, API-Keys, Tokens, Server-/FTP-Zugangsdaten) im Klartext im Repo speichern — weder in Code, Workflows, Kommentaren, Dokumentation noch in Konfigurationsdateien.
