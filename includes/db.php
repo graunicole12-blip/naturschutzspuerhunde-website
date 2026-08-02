@@ -4,7 +4,7 @@ function getDb(): PDO
 {
     static $pdo = null;
     if ($pdo === null) {
-        $config = json_decode(file_get_contents(__DIR__ . '/../../config.json'), true);
+        $config = json_decode(file_get_contents(__DIR__ . '/../config.json'), true);
         $pdo = new PDO(
             'mysql:host=' . $config['DB_HOST'] . ';dbname=' . $config['DB_NAME'] . ';charset=utf8mb4',
             $config['DB_USER'],
