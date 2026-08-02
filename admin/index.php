@@ -6,6 +6,7 @@ require __DIR__ . '/../includes/db.php';
 requireLogin();
 
 $newsCount = (int) getDb()->query('SELECT COUNT(*) FROM news')->fetchColumn();
+$dogsCount = (int) getDb()->query('SELECT COUNT(*) FROM dogs')->fetchColumn();
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -33,7 +34,7 @@ $newsCount = (int) getDb()->query('SELECT COUNT(*) FROM news')->fetchColumn();
       <a href="#">&Uuml;ber uns</a>
       <a href="#">Naturschutzsp&uuml;rhunde</a>
       <a href="#">Projekte</a>
-      <a href="#">Unsere Hunde</a>
+      <a href="/admin/dogs.php">Unsere Hunde</a>
       <a href="#">Ausbildung</a>
       <a href="#">Unterst&uuml;tzen</a>
       <a href="/admin/news.php">News &amp; Kontakt</a>
@@ -45,6 +46,7 @@ $newsCount = (int) getDb()->query('SELECT COUNT(*) FROM news')->fetchColumn();
     <h1>&Uuml;bersicht</h1>
     <p>Dashboard-Grundger&uuml;st. Inhalte-Bearbeitung folgt in weiteren Ausbaustufen.</p>
     <p><?php echo $newsCount; ?> News-Beitr&auml;ge &middot; <a href="/admin/news.php">verwalten</a></p>
+    <p><?php echo $dogsCount; ?> Hundeprofile &middot; <a href="/admin/dogs.php">verwalten</a></p>
   </div>
 </body>
 </html>
