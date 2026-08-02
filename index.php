@@ -1,6 +1,7 @@
 <?php
 require __DIR__ . '/includes/content.php';
 $vision = getContentBlock('startseite', 'vision', 'Vision folgt in Kürze.');
+$nshText = getContentBlock('startseite', 'nsh_text', 'Naturschutzspürhunde sind speziell ausgebildete Hunde, die dank ihrer feinen Nase seltene, bedrohte oder invasive Arten aufspüren – schnell, zuverlässig und ohne die Natur zu stören. So unterstützen sie Naturschutzorganisationen dabei, wichtige Daten für den Schutz unserer Umwelt zu sammeln.');
 $heroImage = getContentBlock('startseite', 'hero_image', '');
 ?>
 <!DOCTYPE html>
@@ -23,6 +24,11 @@ $heroImage = getContentBlock('startseite', 'hero_image', '');
     <section>
       <h1>Vision</h1>
       <p><?php echo nl2br(htmlspecialchars($vision)); ?></p>
+    </section>
+
+    <section>
+      <h2>Was sind Naturschutzspürhunde?</h2>
+      <p><?php echo nl2br(htmlspecialchars($nshText)); ?></p>
     </section>
   </main>
 
