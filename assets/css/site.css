@@ -78,6 +78,45 @@ a {
   color: #fff;
 }
 
+.teaser-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.teaser-card {
+  background: var(--color-neutral-cream);
+  border-radius: 8px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.teaser-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.teaser-card h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.teaser-card p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-secondary-khaki);
+}
+
+.teaser-empty {
+  color: var(--color-secondary-khaki);
+  font-size: 14px;
+}
+
 .site-footer {
   background: var(--color-primary-dark);
   color: var(--color-neutral-tan);
