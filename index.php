@@ -1,8 +1,10 @@
 <?php
 require __DIR__ . '/includes/content.php';
+require __DIR__ . '/includes/projects.php';
 $vision = getContentBlock('startseite', 'vision', 'Vision folgt in Kürze.');
 $nshText = getContentBlock('startseite', 'nsh_text', 'Naturschutzspürhunde sind speziell ausgebildete Hunde, die dank ihrer feinen Nase seltene, bedrohte oder invasive Arten aufspüren – schnell, zuverlässig und ohne die Natur zu stören. So unterstützen sie Naturschutzorganisationen dabei, wichtige Daten für den Schutz unserer Umwelt zu sammeln.');
 $heroImage = getContentBlock('startseite', 'hero_image', '');
+$featuredProjects = getFeaturedProjects();
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -29,6 +31,25 @@ $heroImage = getContentBlock('startseite', 'hero_image', '');
     <section>
       <h2>Was sind Naturschutzspürhunde?</h2>
       <p><?php echo nl2br(htmlspecialchars($nshText)); ?></p>
+    </section>
+
+    <section>
+      <h2>Aktuelle Projekte</h2>
+      <?php if (empty($featuredProjects)): ?>
+        <p class="teaser-empty">Unsere Projekte werden hier in Kürze vorgestellt.</p>
+      <?php else: ?>
+        <div class="teaser-grid">
+          <?php foreach ($featuredProjects as $project): ?>
+            <div class="teaser-card">
+              <?php if (!empty($project['image'])): ?>
+                <img src="/uploads/<?php echo htmlspecialchars($project['image']); ?>" alt="">
+              <?php endif; ?>
+              <h3><?php echo htmlspecialchars($project['title']); ?></h3>
+              <p><?php echo htmlspecialchars(mb_strimwidth(trim($project['content'] ?? ''), 0, 140, '…')); ?></p>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
     </section>
   </main>
 
