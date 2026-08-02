@@ -10,18 +10,24 @@ $pageKey = 'startseite';
 $textBlockKey = 'vision';
 $nshBlockKey = 'nsh_text';
 $imageBlockKey = 'hero_image';
+$ctaTextBlockKey = 'cta_text';
+$ctaLinkBlockKey = 'cta_link';
 $message = '';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content = trim($_POST['content'] ?? '');
     $nshText = trim($_POST['nsh_text'] ?? '');
+    $ctaText = trim($_POST['cta_text'] ?? '');
+    $ctaLink = trim($_POST['cta_link'] ?? '');
     $stmt = getDb()->prepare(
         'INSERT INTO content_blocks (page_key, block_key, content) VALUES (?, ?, ?)
          ON DUPLICATE KEY UPDATE content = VALUES(content)'
     );
     $stmt->execute([$pageKey, $textBlockKey, $content]);
     $stmt->execute([$pageKey, $nshBlockKey, $nshText]);
+    $stmt->execute([$pageKey, $ctaTextBlockKey, $ctaText]);
+    $stmt->execute([$pageKey, $ctaLinkBlockKey, $ctaLink]);
 
     $uploadResult = handleImageUpload($_FILES['hero_image'] ?? [], __DIR__ . '/../uploads');
     if ($uploadResult['error'] !== null) {
@@ -33,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = $error === '' ? 'Gespeichert.' : '';
 }
 
-$stmt = getDb()->prepare('SELECT block_key, content FROM content_blocks WHERE page_key = ? AND block_key IN (?, ?, ?)');
-$stmt->execute([$pageKey, $textBlockKey, $nshBlockKey, $imageBlockKey]);
+$stmt = getDb()->prepare('SELECT block_key, content FROM content_blocks WHERE page_key = ? AND block_key IN (?, ?, ?, ?, ?)');
+$stmt->execute([$pageKey, $textBlockKey, $nshBlockKey, $imageBlockKey, $ctaTextBlockKey, $ctaLinkBlockKey]);
 $blocks = [];
 foreach ($stmt->fetchAll() as $row) {
     $blocks[$row['block_key']] = $row['content'];
@@ -42,6 +48,8 @@ foreach ($stmt->fetchAll() as $row) {
 $currentText = $blocks[$textBlockKey] ?? '';
 $currentNshText = $blocks[$nshBlockKey] ?? '';
 $currentImage = $blocks[$imageBlockKey] ?? '';
+$currentCtaText = $blocks[$ctaTextBlockKey] ?? '';
+$currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -59,6 +67,7 @@ $currentImage = $blocks[$imageBlockKey] ?? '';
     select { width: 260px; margin-bottom: 12px; padding: 6px; }
     label { display: block; font-size: 12px; color: var(--color-primary); margin: 16px 0 4px; }
     textarea { width: 100%; box-sizing: border-box; min-height: 100px; border: 1px solid var(--color-neutral-blue); border-radius: 6px; padding: 10px; font-size: 14px; font-family: var(--font-text); }
+    input[type="text"] { width: 100%; box-sizing: border-box; border: 1px solid var(--color-neutral-blue); border-radius: 6px; padding: 8px; font-size: 14px; font-family: var(--font-text); }
     input[type="file"] { font-size: 13px; }
     button { background: var(--color-accent-red); color: #fff; border: none; border-radius: 6px; height: 36px; padding: 0 20px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 16px; }
     .message { color: var(--color-secondary-gold); font-size: 13px; }
@@ -71,7 +80,8 @@ $currentImage = $blocks[$imageBlockKey] ?? '';
     .preview-card { background: #fff; border-radius: 12px; padding: 16px; box-sizing: border-box; }
     .preview-card img { max-width: 100%; border-radius: 6px; display: block; margin-bottom: 12px; }
     .preview-card h2 { font-family: var(--font-titel); color: var(--color-primary); font-size: 18px; margin: 0 0 8px; }
-    .preview-card p { font-size: 13px; color: var(--color-primary); white-space: pre-wrap; margin: 0; }
+    .preview-card p { font-size: 13px; color: var(--color-primary); white-space: pre-wrap; margin: 0 0 8px; }
+    .cta-button { display: inline-block; background: var(--color-accent-red); color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; }
   </style>
 </head>
 <body>
@@ -104,6 +114,12 @@ $currentImage = $blocks[$imageBlockKey] ?? '';
         <input type="file" id="hero_image" name="hero_image" accept="image/jpeg,image/png,image/webp">
         <p class="hint">JPEG, PNG oder WebP, max. 5 MB.</p>
 
+        <label for="cta_text">Unterst&uuml;tzen &ndash; Kurztext</label>
+        <textarea id="cta_text" name="cta_text" placeholder="Kurztext f&uuml;r die Unterst&uuml;tzen-Sektion..."><?php echo htmlspecialchars($currentCtaText); ?></textarea>
+
+        <label for="cta_link">Unterst&uuml;tzen &ndash; Link (Button-Ziel)</label>
+        <input type="text" id="cta_link" name="cta_link" value="<?php echo htmlspecialchars($currentCtaLink); ?>" placeholder="https://...">
+
         <button type="submit">Speichern</button>
       </form>
     </div>
@@ -116,6 +132,9 @@ $currentImage = $blocks[$imageBlockKey] ?? '';
         <p id="previewText"><?php echo htmlspecialchars($currentText); ?></p>
         <h2>Was sind Naturschutzsp&uuml;rhunde?</h2>
         <p id="previewNshText"><?php echo htmlspecialchars($currentNshText); ?></p>
+        <h2>Unterst&uuml;tzen</h2>
+        <p id="previewCtaText"><?php echo htmlspecialchars($currentCtaText); ?></p>
+        <a id="previewCtaButton" class="cta-button" href="<?php echo htmlspecialchars($currentCtaLink); ?>" target="_blank" rel="noopener">Jetzt unterst&uuml;tzen</a>
       </div>
     </div>
   </div>
@@ -126,6 +145,12 @@ $currentImage = $blocks[$imageBlockKey] ?? '';
     });
     document.getElementById('nsh_text').addEventListener('input', function (e) {
       document.getElementById('previewNshText').textContent = e.target.value;
+    });
+    document.getElementById('cta_text').addEventListener('input', function (e) {
+      document.getElementById('previewCtaText').textContent = e.target.value;
+    });
+    document.getElementById('cta_link').addEventListener('input', function (e) {
+      document.getElementById('previewCtaButton').href = e.target.value;
     });
     document.getElementById('hero_image').addEventListener('change', function (e) {
       var file = e.target.files[0];
