@@ -26,7 +26,7 @@ requireLogin();
   <div class="sidebar">
     <h2>NSH Admin</h2>
     <nav>
-      <a href="#">Startseite</a>
+      <a href="/admin/edit.php">Startseite</a>
       <a href="#">&Uuml;ber uns</a>
       <a href="#">Naturschutzsp&uuml;rhunde</a>
       <a href="#">Projekte</a>

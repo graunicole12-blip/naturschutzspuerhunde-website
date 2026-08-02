@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/includes/db.php';
+require __DIR__ . '/../includes/db.php';
 
 $pdo = getDb();
 $adminCount = (int) $pdo->query('SELECT COUNT(*) FROM admin_users')->fetchColumn();
