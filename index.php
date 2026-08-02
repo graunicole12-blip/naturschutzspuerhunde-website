@@ -1,6 +1,7 @@
 <?php
 require __DIR__ . '/includes/content.php';
 $vision = getContentBlock('startseite', 'vision', 'Vision folgt in K&uuml;rze.');
+$heroImage = getContentBlock('startseite', 'hero_image', '');
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -11,6 +12,9 @@ $vision = getContentBlock('startseite', 'vision', 'Vision folgt in K&uuml;rze.')
 </head>
 <body>
   <h1>Naturschutzspürhunde</h1>
+  <?php if ($heroImage !== ''): ?>
+    <img src="/uploads/<?php echo htmlspecialchars($heroImage); ?>" alt="" style="max-width:100%;">
+  <?php endif; ?>
   <p>Testseite &ndash; Deployment-Pipeline aktiv.</p>
   <p>Generiert am: <?php echo date('d.m.Y H:i:s'); ?></p>
   <h2>Vision</h2>
