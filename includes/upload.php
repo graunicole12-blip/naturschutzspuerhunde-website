@@ -32,7 +32,7 @@ function handleImageUpload(array $file, string $destDir): array
 
     if (!is_dir($destDir)) {
         mkdir($destDir, 0755, true);
-        file_put_contents($destDir . '/.htaccess', "php_flag engine off\n");
+        file_put_contents($destDir . '/.htaccess', "<FilesMatch \"\\.php$\">\n  Require all denied\n</FilesMatch>\n");
     }
 
     $filename = bin2hex(random_bytes(8)) . '.' . ALLOWED_IMAGE_TYPES[$mimeType];
