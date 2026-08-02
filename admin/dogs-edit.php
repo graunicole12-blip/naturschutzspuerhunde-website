@@ -83,7 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     body { font-family: var(--font-text); margin: 0; background: var(--color-neutral-cream); }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; }
     .topbar a { color: var(--color-primary); font-size: 13px; text-decoration: none; }
-    .panel { background: #fff; border-radius: 12px; margin: 0 32px 32px; padding: 20px; max-width: 640px; box-sizing: border-box; }
+    .layout { display: flex; gap: 24px; margin: 0 32px 32px; align-items: flex-start; }
+    .panel { background: #fff; border-radius: 12px; padding: 20px; max-width: 480px; box-sizing: border-box; flex: 1; }
     h1 { font-family: var(--font-titel); color: var(--color-primary); font-size: 22px; margin: 0 0 16px; }
     label { display: block; font-size: 12px; color: var(--color-primary); margin: 16px 0 4px; }
     label:first-of-type { margin-top: 0; }
@@ -94,8 +95,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .checkbox-row label { margin: 0; }
     button { background: var(--color-accent-red); color: #fff; border: none; border-radius: 6px; height: 36px; padding: 0 20px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 16px; }
     .error { color: var(--color-accent-red); font-size: 13px; }
-    .preview { max-width: 200px; display: block; margin-top: 8px; border-radius: 6px; }
+    .current-image { max-width: 200px; display: block; margin-top: 8px; border-radius: 6px; }
     .hint { font-size: 12px; color: var(--color-secondary-khaki); margin: 4px 0 0; }
+
+    .preview-panel { flex: 1; max-width: 360px; }
+    .preview-label { font-size: 12px; color: var(--color-secondary-khaki); margin: 0 0 8px; }
+    .preview-card { background: #fff; border-radius: 12px; padding: 16px; box-sizing: border-box; }
+    .preview-card img { max-width: 100%; border-radius: 6px; display: block; margin-bottom: 12px; }
+    .preview-badge { display: inline-block; background: var(--color-neutral-tan); color: var(--color-primary); font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-bottom: 6px; }
+    .preview-card h2 { font-family: var(--font-titel); color: var(--color-primary); font-size: 18px; margin: 0 0 4px; }
+    .preview-meta { font-size: 12px; color: var(--color-secondary-khaki); margin: 0 0 8px; }
+    .preview-card p { font-size: 13px; color: var(--color-primary); white-space: pre-wrap; margin: 0 0 8px; }
   </style>
 </head>
 <body>
@@ -103,43 +113,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <a href="/admin/dogs.php">&larr; Zur&uuml;ck zur &Uuml;bersicht</a>
     <a href="/admin/logout.php">Abmelden</a>
   </div>
-  <div class="panel">
-    <h1><?php echo $id > 0 ? 'Profil bearbeiten' : 'Neues Profil'; ?></h1>
-    <?php if ($error !== ''): ?>
-      <p class="error"><?php echo htmlspecialchars($error); ?></p>
-    <?php endif; ?>
-    <form method="post" enctype="multipart/form-data">
-      <input type="hidden" name="id" value="<?php echo (int) $id; ?>">
-
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
-
-      <label for="einsatzgebiet">Einsatzgebiet</label>
-      <input type="text" id="einsatzgebiet" name="einsatzgebiet" value="<?php echo htmlspecialchars($einsatzgebiet); ?>">
-
-      <label for="charakter">Charakter</label>
-      <textarea id="charakter" name="charakter"><?php echo htmlspecialchars($charakter); ?></textarea>
-
-      <label for="bio">Steckbrief</label>
-      <textarea id="bio" name="bio"><?php echo htmlspecialchars($bio); ?></textarea>
-
-      <label for="image">Bild</label>
-      <?php if ($image !== ''): ?>
-        <img class="preview" src="/uploads/<?php echo htmlspecialchars($image); ?>" alt="Aktuelles Bild">
+  <div class="layout">
+    <div class="panel">
+      <h1><?php echo $id > 0 ? 'Profil bearbeiten' : 'Neues Profil'; ?></h1>
+      <?php if ($error !== ''): ?>
+        <p class="error"><?php echo htmlspecialchars($error); ?></p>
       <?php endif; ?>
-      <input type="file" id="image" name="image" accept="image/jpeg,image/png,image/webp">
-      <p class="hint">JPEG, PNG oder WebP, max. 5 MB. Optional.</p>
+      <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="<?php echo (int) $id; ?>">
 
-      <label for="sort_order">Reihenfolge</label>
-      <input type="number" id="sort_order" name="sort_order" value="<?php echo (int) $sortOrder; ?>">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
 
-      <div class="checkbox-row">
-        <input type="checkbox" id="is_active" name="is_active" <?php echo $isActive ? 'checked' : ''; ?>>
-        <label for="is_active">Aktiv im Einsatz (deaktivieren = Wegbereiterin, z.B. Malou)</label>
+        <label for="einsatzgebiet">Einsatzgebiet</label>
+        <input type="text" id="einsatzgebiet" name="einsatzgebiet" value="<?php echo htmlspecialchars($einsatzgebiet); ?>">
+
+        <label for="charakter">Charakter</label>
+        <textarea id="charakter" name="charakter"><?php echo htmlspecialchars($charakter); ?></textarea>
+
+        <label for="bio">Steckbrief</label>
+        <textarea id="bio" name="bio"><?php echo htmlspecialchars($bio); ?></textarea>
+
+        <label for="image">Bild</label>
+        <?php if ($image !== ''): ?>
+          <img class="current-image" src="/uploads/<?php echo htmlspecialchars($image); ?>" alt="Aktuelles Bild">
+        <?php endif; ?>
+        <input type="file" id="image" name="image" accept="image/jpeg,image/png,image/webp">
+        <p class="hint">JPEG, PNG oder WebP, max. 5 MB. Optional.</p>
+
+        <label for="sort_order">Reihenfolge</label>
+        <input type="number" id="sort_order" name="sort_order" value="<?php echo (int) $sortOrder; ?>">
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="is_active" name="is_active" <?php echo $isActive ? 'checked' : ''; ?>>
+          <label for="is_active">Aktiv im Einsatz (deaktivieren = Wegbereiterin, z.B. Malou)</label>
+        </div>
+
+        <button type="submit">Speichern</button>
+      </form>
+    </div>
+
+    <div class="preview-panel">
+      <p class="preview-label">Vorschau &ndash; so k&ouml;nnte das Profil aussehen</p>
+      <div class="preview-card">
+        <img id="previewImage" src="<?php echo $image !== '' ? '/uploads/' . htmlspecialchars($image) : ''; ?>" alt="" style="<?php echo $image !== '' ? '' : 'display:none;'; ?>">
+        <span class="preview-badge" id="previewStatus"><?php echo $isActive ? 'Aktiv' : 'Wegbereiterin'; ?></span>
+        <h2 id="previewName"><?php echo htmlspecialchars($name !== '' ? $name : 'Name des Hundes'); ?></h2>
+        <p class="preview-meta" id="previewEinsatzgebiet"><?php echo htmlspecialchars($einsatzgebiet); ?></p>
+        <p id="previewCharakter"><?php echo htmlspecialchars($charakter); ?></p>
+        <p id="previewBio"><?php echo htmlspecialchars($bio); ?></p>
       </div>
-
-      <button type="submit">Speichern</button>
-    </form>
+    </div>
   </div>
+
+  <script>
+    document.getElementById('name').addEventListener('input', function (e) {
+      document.getElementById('previewName').textContent = e.target.value || 'Name des Hundes';
+    });
+    document.getElementById('einsatzgebiet').addEventListener('input', function (e) {
+      document.getElementById('previewEinsatzgebiet').textContent = e.target.value;
+    });
+    document.getElementById('charakter').addEventListener('input', function (e) {
+      document.getElementById('previewCharakter').textContent = e.target.value;
+    });
+    document.getElementById('bio').addEventListener('input', function (e) {
+      document.getElementById('previewBio').textContent = e.target.value;
+    });
+    document.getElementById('is_active').addEventListener('change', function (e) {
+      document.getElementById('previewStatus').textContent = e.target.checked ? 'Aktiv' : 'Wegbereiterin';
+    });
+    document.getElementById('image').addEventListener('change', function (e) {
+      var file = e.target.files[0];
+      if (!file) {
+        return;
+      }
+      var img = document.getElementById('previewImage');
+      img.src = URL.createObjectURL(file);
+      img.style.display = '';
+    });
+  </script>
 </body>
 </html>
