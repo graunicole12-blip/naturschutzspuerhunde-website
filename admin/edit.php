@@ -8,17 +8,20 @@ requireLogin();
 
 $pageKey = 'startseite';
 $textBlockKey = 'vision';
+$nshBlockKey = 'nsh_text';
 $imageBlockKey = 'hero_image';
 $message = '';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content = trim($_POST['content'] ?? '');
+    $nshText = trim($_POST['nsh_text'] ?? '');
     $stmt = getDb()->prepare(
         'INSERT INTO content_blocks (page_key, block_key, content) VALUES (?, ?, ?)
          ON DUPLICATE KEY UPDATE content = VALUES(content)'
     );
     $stmt->execute([$pageKey, $textBlockKey, $content]);
+    $stmt->execute([$pageKey, $nshBlockKey, $nshText]);
 
     $uploadResult = handleImageUpload($_FILES['hero_image'] ?? [], __DIR__ . '/../uploads');
     if ($uploadResult['error'] !== null) {
@@ -30,13 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = $error === '' ? 'Gespeichert.' : '';
 }
 
-$stmt = getDb()->prepare('SELECT block_key, content FROM content_blocks WHERE page_key = ? AND block_key IN (?, ?)');
-$stmt->execute([$pageKey, $textBlockKey, $imageBlockKey]);
+$stmt = getDb()->prepare('SELECT block_key, content FROM content_blocks WHERE page_key = ? AND block_key IN (?, ?, ?)');
+$stmt->execute([$pageKey, $textBlockKey, $nshBlockKey, $imageBlockKey]);
 $blocks = [];
 foreach ($stmt->fetchAll() as $row) {
     $blocks[$row['block_key']] = $row['content'];
 }
 $currentText = $blocks[$textBlockKey] ?? '';
+$currentNshText = $blocks[$nshBlockKey] ?? '';
 $currentImage = $blocks[$imageBlockKey] ?? '';
 ?>
 <!DOCTYPE html>
@@ -90,6 +94,9 @@ $currentImage = $blocks[$imageBlockKey] ?? '';
         <label for="content">Vision</label>
         <textarea id="content" name="content" placeholder="Kurztext Vision verfassen (max. 3-4 S&auml;tze)..."><?php echo htmlspecialchars($currentText); ?></textarea>
 
+        <label for="nsh_text">Was sind Naturschutzsp&uuml;rhunde?</label>
+        <textarea id="nsh_text" name="nsh_text" placeholder="Kurztext verfassen (max. 3-4 S&auml;tze)..."><?php echo htmlspecialchars($currentNshText); ?></textarea>
+
         <label for="hero_image">Hero-Bild</label>
         <?php if ($currentImage !== ''): ?>
           <img class="current-image" src="/uploads/<?php echo htmlspecialchars($currentImage); ?>" alt="Aktuelles Hero-Bild">
@@ -107,6 +114,8 @@ $currentImage = $blocks[$imageBlockKey] ?? '';
         <img id="previewImage" src="<?php echo $currentImage !== '' ? '/uploads/' . htmlspecialchars($currentImage) : ''; ?>" alt="" style="<?php echo $currentImage !== '' ? '' : 'display:none;'; ?>">
         <h2>Vision</h2>
         <p id="previewText"><?php echo htmlspecialchars($currentText); ?></p>
+        <h2>Was sind Naturschutzsp&uuml;rhunde?</h2>
+        <p id="previewNshText"><?php echo htmlspecialchars($currentNshText); ?></p>
       </div>
     </div>
   </div>
@@ -114,6 +123,9 @@ $currentImage = $blocks[$imageBlockKey] ?? '';
   <script>
     document.getElementById('content').addEventListener('input', function (e) {
       document.getElementById('previewText').textContent = e.target.value;
+    });
+    document.getElementById('nsh_text').addEventListener('input', function (e) {
+      document.getElementById('previewNshText').textContent = e.target.value;
     });
     document.getElementById('hero_image').addEventListener('change', function (e) {
       var file = e.target.files[0];
