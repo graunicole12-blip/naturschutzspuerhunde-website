@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/includes/content.php';
-$vision = getContentBlock('startseite', 'vision', 'Vision folgt in K&uuml;rze.');
+$vision = getContentBlock('startseite', 'vision', 'Vision folgt in Kürze.');
 $heroImage = getContentBlock('startseite', 'hero_image', '');
 ?>
 <!DOCTYPE html>
@@ -8,16 +8,24 @@ $heroImage = getContentBlock('startseite', 'hero_image', '');
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Naturschutzspürhunde</title>
+  <title>Naturschutzspürhunde Schweiz</title>
+  <link rel="stylesheet" href="/assets/css/variables.css">
+  <link rel="stylesheet" href="/assets/css/site.css">
 </head>
 <body>
-  <h1>Naturschutzspürhunde</h1>
-  <?php if ($heroImage !== ''): ?>
-    <img src="/uploads/<?php echo htmlspecialchars($heroImage); ?>" alt="" style="max-width:100%;">
-  <?php endif; ?>
-  <p>Testseite &ndash; Deployment-Pipeline aktiv.</p>
-  <p>Generiert am: <?php echo date('d.m.Y H:i:s'); ?></p>
-  <h2>Vision</h2>
-  <p><?php echo nl2br(htmlspecialchars($vision)); ?></p>
+  <?php require __DIR__ . '/includes/header.php'; ?>
+
+  <main style="max-width:1100px;margin:0 auto;padding:24px;">
+    <?php if ($heroImage !== ''): ?>
+      <img src="/uploads/<?php echo htmlspecialchars($heroImage); ?>" alt="" style="max-width:100%;border-radius:8px;display:block;margin-bottom:24px;">
+    <?php endif; ?>
+
+    <section>
+      <h1>Vision</h1>
+      <p><?php echo nl2br(htmlspecialchars($vision)); ?></p>
+    </section>
+  </main>
+
+  <?php require __DIR__ . '/includes/footer.php'; ?>
 </body>
 </html>

@@ -1,0 +1,28 @@
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="site-logo" href="/index.php">
+      <img src="/assets/img/logo.png" alt="Vereinslogo">
+      <span>Naturschutzspürhunde</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false">&#9776;</button>
+    <nav class="site-nav" id="siteNav">
+      <ul>
+        <li><a href="/index.php">Startseite</a></li>
+        <li><a href="#">Über uns</a></li>
+        <li><a href="#">Naturschutzspürhunde</a></li>
+        <li><a href="#">Projekte</a></li>
+        <li><a href="#">Unsere Hunde</a></li>
+        <li><a href="#">Ausbildung</a></li>
+        <li><a href="#">Unterstützen</a></li>
+        <li><a href="#">News &amp; Kontakt</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<script>
+  document.getElementById('navToggle').addEventListener('click', function () {
+    var nav = document.getElementById('siteNav');
+    var expanded = nav.classList.toggle('open');
+    this.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+  });
+</script>
