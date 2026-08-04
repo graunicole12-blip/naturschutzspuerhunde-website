@@ -112,6 +112,16 @@ a {
   color: var(--color-secondary-khaki);
 }
 
+.teaser-badge {
+  display: inline-block;
+  background: var(--color-neutral-tan);
+  color: var(--color-primary);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+}
+
 .teaser-empty {
   color: var(--color-secondary-khaki);
   font-size: 14px;
