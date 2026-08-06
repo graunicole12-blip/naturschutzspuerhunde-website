@@ -1,4 +1,7 @@
 <?php
+require __DIR__ . '/includes/maintenance.php';
+checkMaintenanceMode();
+
 require __DIR__ . '/includes/content.php';
 require __DIR__ . '/includes/projects.php';
 require __DIR__ . '/includes/news.php';
