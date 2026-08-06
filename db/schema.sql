@@ -47,3 +47,11 @@ CREATE TABLE IF NOT EXISTS projects (
   image VARCHAR(255),
   sort_order INT NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Generische Key-Value-Ablage fuer Einstellungen (Issue #40), u.a. Wartungsmodus:
+-- maintenance_mode ('1'/'0'), maintenance_text, maintenance_preview_token
+CREATE TABLE IF NOT EXISTS settings (
+  setting_key VARCHAR(50) PRIMARY KEY,
+  setting_value TEXT,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

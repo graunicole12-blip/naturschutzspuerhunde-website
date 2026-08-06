@@ -39,7 +39,7 @@ $projectsCount = (int) getDb()->query('SELECT COUNT(*) FROM projects')->fetchCol
       <a href="#">Ausbildung</a>
       <a href="#">Unterst&uuml;tzen</a>
       <a href="/admin/news.php">News &amp; Kontakt</a>
-      <a href="#">Einstellungen</a>
+      <a href="/admin/settings.php">Einstellungen</a>
     </nav>
   </div>
   <div class="content">
