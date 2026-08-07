@@ -33,6 +33,7 @@ $latestNews = getLatestNews();
     <section>
       <h1>Vision</h1>
       <p><?php echo renderRichText($vision); ?></p>
+      <p><a href="/ueber-uns.php">Mehr über uns &rarr;</a></p>
     </section>
 
     <section>

@@ -8,7 +8,7 @@
     <nav class="site-nav" id="siteNav">
       <ul>
         <li><a href="/index.php">Startseite</a></li>
-        <li><a href="#">Über uns</a></li>
+        <li><a href="/ueber-uns.php">Über uns</a></li>
         <li><a href="#">Naturschutzspürhunde</a></li>
         <li><a href="/projekte.php">Projekte</a></li>
         <li><a href="#">Unsere Hunde</a></li>
