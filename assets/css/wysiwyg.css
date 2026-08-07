@@ -1,0 +1,49 @@
+.wysiwyg-hidden-source {
+  display: none;
+}
+
+.wysiwyg-toolbar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.wysiwyg-btn {
+  background: var(--color-neutral-cream);
+  border: 1px solid var(--color-neutral-blue);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-family: var(--font-text);
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.wysiwyg-btn:hover {
+  background: var(--color-neutral-tan);
+}
+
+.wysiwyg-editor {
+  min-height: 100px;
+  border: 1px solid var(--color-neutral-blue);
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 14px;
+  font-family: var(--font-text);
+  background: #fff;
+}
+
+.wysiwyg-editor:focus {
+  outline: 2px solid var(--color-secondary-gold);
+  outline-offset: -1px;
+}
+
+.wysiwyg-editor ul,
+.wysiwyg-editor ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.text-upper {
+  text-transform: uppercase;
+}

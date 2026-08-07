@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/sanitize-html.php';
 
 function getContentBlock(string $pageKey, string $blockKey, string $default = ''): string
 {
@@ -8,4 +9,9 @@ function getContentBlock(string $pageKey, string $blockKey, string $default = ''
     $stmt->execute([$pageKey, $blockKey]);
     $value = $stmt->fetchColumn();
     return ($value !== false && $value !== null) ? $value : $default;
+}
+
+function renderRichText(?string $raw): string
+{
+    return nl2br(sanitizeHtml($raw ?? ''));
 }
