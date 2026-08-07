@@ -10,7 +10,7 @@ const PROJECT_STATUSES = [
 
 function getFeaturedProjects(int $limit = 3): array
 {
-    $stmt = getDb()->prepare('SELECT title, content, image FROM projects ORDER BY sort_order ASC, id DESC LIMIT ?');
+    $stmt = getDb()->prepare('SELECT id, title, content, image FROM projects ORDER BY sort_order ASC, id DESC LIMIT ?');
     $stmt->bindValue(1, $limit, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetchAll();
