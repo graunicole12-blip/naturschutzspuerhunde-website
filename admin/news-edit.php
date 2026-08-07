@@ -4,6 +4,7 @@ require __DIR__ . '/includes/auth.php';
 require __DIR__ . '/../includes/db.php';
 require __DIR__ . '/../includes/upload.php';
 require __DIR__ . '/../includes/news.php';
+require __DIR__ . '/../includes/sanitize-html.php';
 
 requireLogin();
 
@@ -35,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title'] ?? '');
     $category = $_POST['category'] ?? '';
     $publishedAt = $_POST['published_at'] ?? '';
-    $content = trim($_POST['content'] ?? '');
+    $content = sanitizeHtml(trim($_POST['content'] ?? ''));
 
     if ($title === '') {
         $error = 'Titel darf nicht leer sein.';
@@ -74,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php echo $id > 0 ? 'Beitrag bearbeiten' : 'Neuer Beitrag'; ?> &ndash; Naturschutzsp&uuml;rhunde Admin</title>
   <link rel="stylesheet" href="../assets/css/variables.css">
+  <link rel="stylesheet" href="../assets/css/wysiwyg.css">
   <style>
     body { font-family: var(--font-text); margin: 0; background: var(--color-neutral-cream); }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; }
@@ -154,6 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   </div>
 
+  <script src="../assets/js/wysiwyg.js"></script>
   <script>
     var categories = <?php echo json_encode(NEWS_CATEGORIES); ?>;
 
@@ -167,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       document.getElementById('previewDate').textContent = e.target.value;
     });
     document.getElementById('content').addEventListener('input', function (e) {
-      document.getElementById('previewContent').textContent = e.target.value;
+      document.getElementById('previewContent').innerHTML = e.target.value;
     });
     document.getElementById('image').addEventListener('change', function (e) {
       var file = e.target.files[0];
@@ -178,6 +181,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       img.src = URL.createObjectURL(file);
       img.style.display = '';
     });
+
+    initWysiwyg('content');
   </script>
 </body>
 </html>
