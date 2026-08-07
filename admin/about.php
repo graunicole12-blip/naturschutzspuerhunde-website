@@ -6,6 +6,7 @@ require __DIR__ . '/../includes/content.php';
 require __DIR__ . '/../includes/upload.php';
 require __DIR__ . '/../includes/sanitize-html.php';
 require __DIR__ . '/../includes/board.php';
+require __DIR__ . '/../includes/partners.php';
 
 requireLogin();
 
@@ -41,6 +42,7 @@ $vereinText = getContentBlock($pageKey, $vereinTextKey, '');
 $visionMissionText = getContentBlock($pageKey, $visionMissionKey, '');
 $statutenDocument = getContentBlock($pageKey, $statutenKey, '');
 $boardMembers = getAllBoardMembers();
+$partners = getAllPartners();
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -130,6 +132,37 @@ $boardMembers = getAllBoardMembers();
               <a href="/admin/board-edit.php?id=<?php echo (int) $member['id']; ?>">Bearbeiten</a>
               <form method="post" action="/admin/board-delete.php" style="display:inline" onsubmit="return confirm('Vorstandsmitglied wirklich löschen?');">
                 <input type="hidden" name="id" value="<?php echo (int) $member['id']; ?>">
+                <button type="submit" class="delete-btn">L&ouml;schen</button>
+              </form>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
+    <?php endif; ?>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <h1>Partner</h1>
+      <a class="new-btn" href="/admin/partners-edit.php">+ Neu</a>
+    </div>
+    <?php if (empty($partners)): ?>
+      <p class="empty">Noch keine Partner vorhanden.</p>
+    <?php else: ?>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Link</th>
+          <th></th>
+        </tr>
+        <?php foreach ($partners as $partner): ?>
+          <tr>
+            <td><?php echo htmlspecialchars($partner['name']); ?></td>
+            <td><?php echo htmlspecialchars($partner['link'] ?? ''); ?></td>
+            <td>
+              <a href="/admin/partners-edit.php?id=<?php echo (int) $partner['id']; ?>">Bearbeiten</a>
+              <form method="post" action="/admin/partners-delete.php" style="display:inline" onsubmit="return confirm('Partner wirklich löschen?');">
+                <input type="hidden" name="id" value="<?php echo (int) $partner['id']; ?>">
                 <button type="submit" class="delete-btn">L&ouml;schen</button>
               </form>
             </td>
