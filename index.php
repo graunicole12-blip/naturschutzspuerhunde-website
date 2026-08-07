@@ -52,7 +52,7 @@ $latestNews = getLatestNews();
                 <img src="/uploads/<?php echo htmlspecialchars($project['image']); ?>" alt="">
               <?php endif; ?>
               <h3><?php echo htmlspecialchars($project['title']); ?></h3>
-              <p><?php echo htmlspecialchars(mb_strimwidth(trim($project['content'] ?? ''), 0, 140, '…')); ?></p>
+              <p><?php echo htmlspecialchars(mb_strimwidth(trim(strip_tags($project['content'] ?? '')), 0, 140, '…')); ?></p>
             </a>
           <?php endforeach; ?>
         </div>

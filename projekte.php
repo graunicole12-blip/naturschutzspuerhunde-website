@@ -31,7 +31,7 @@ $forschungText = getContentBlock('projekte', 'forschung_text', 'Unsere Forschung
               <span class="teaser-badge"><?php echo htmlspecialchars(PROJECT_STATUSES[$project['status']] ?? $project['status']); ?></span>
             <?php endif; ?>
             <h3><?php echo htmlspecialchars($project['title']); ?></h3>
-            <p><?php echo htmlspecialchars(mb_strimwidth(trim($project['content'] ?? ''), 0, 140, '…')); ?></p>
+            <p><?php echo htmlspecialchars(mb_strimwidth(trim(strip_tags($project['content'] ?? '')), 0, 140, '…')); ?></p>
           </a>
         <?php endforeach; ?>
       </div>
@@ -39,7 +39,7 @@ $forschungText = getContentBlock('projekte', 'forschung_text', 'Unsere Forschung
 
     <section>
       <h2>Forschung</h2>
-      <p><?php echo nl2br(htmlspecialchars($forschungText)); ?></p>
+      <p><?php echo renderRichText($forschungText); ?></p>
     </section>
   </main>
 

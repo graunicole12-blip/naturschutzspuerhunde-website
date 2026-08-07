@@ -4,6 +4,7 @@ require __DIR__ . '/includes/auth.php';
 require __DIR__ . '/../includes/db.php';
 require __DIR__ . '/../includes/upload.php';
 require __DIR__ . '/../includes/projects.php';
+require __DIR__ . '/../includes/sanitize-html.php';
 
 requireLogin();
 
@@ -33,7 +34,7 @@ if ($id > 0) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title'] ?? '');
-    $content = trim($_POST['content'] ?? '');
+    $content = sanitizeHtml(trim($_POST['content'] ?? ''));
     $status = $_POST['status'] ?? '';
     $sortOrder = (int) ($_POST['sort_order'] ?? 0);
 
@@ -76,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php echo $id > 0 ? 'Projekt bearbeiten' : 'Neues Projekt'; ?> &ndash; Naturschutzsp&uuml;rhunde Admin</title>
   <link rel="stylesheet" href="../assets/css/variables.css">
+  <link rel="stylesheet" href="../assets/css/wysiwyg.css">
   <style>
     body { font-family: var(--font-text); margin: 0; background: var(--color-neutral-cream); }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; }
@@ -154,6 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   </div>
 
+  <script src="../assets/js/wysiwyg.js"></script>
   <script>
     var statuses = <?php echo json_encode(PROJECT_STATUSES); ?>;
 
@@ -164,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       document.getElementById('previewStatus').textContent = statuses[e.target.value] || '';
     });
     document.getElementById('content').addEventListener('input', function (e) {
-      document.getElementById('previewContent').textContent = e.target.value;
+      document.getElementById('previewContent').innerHTML = e.target.value;
     });
     document.getElementById('image').addEventListener('change', function (e) {
       var file = e.target.files[0];
@@ -175,6 +178,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       img.src = URL.createObjectURL(file);
       img.style.display = '';
     });
+
+    initWysiwyg('content');
   </script>
 </body>
 </html>
