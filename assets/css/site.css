@@ -127,6 +127,10 @@ a {
   font-size: 14px;
 }
 
+.text-upper {
+  text-transform: uppercase;
+}
+
 .cta-section {
   background: var(--color-primary);
   color: #fff;
