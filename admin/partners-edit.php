@@ -31,6 +31,13 @@ if ($id > 0) {
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_logo']) && $id > 0) {
+    $stmt = getDb()->prepare('UPDATE partners SET logo = ? WHERE id = ?');
+    $stmt->execute(['', $id]);
+    header('Location: /admin/partners-edit.php?id=' . $id);
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
     $description = sanitizeHtml(trim($_POST['description'] ?? ''));
@@ -89,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     button { background: var(--color-accent-red); color: #fff; border: none; border-radius: 6px; height: 36px; padding: 0 20px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 16px; }
     .error { color: var(--color-accent-red); font-size: 13px; }
     .current-image { max-width: 200px; display: block; margin-top: 8px; border-radius: 6px; }
+    .delete-image-btn { background: var(--color-secondary-gold); margin-top: 8px; margin-left: 8px; height: 30px; padding: 0 14px; font-size: 13px; }
     .hint { font-size: 12px; color: var(--color-secondary-khaki); margin: 4px 0 0; }
   </style>
 </head>
@@ -120,6 +128,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <?php endif; ?>
       <input type="file" id="logo" name="logo" accept="image/jpeg,image/png,image/webp">
       <p class="hint">JPEG, PNG oder WebP, max. 5 MB. Optional.</p>
+      <?php if ($logo !== ''): ?>
+        <button type="submit" name="delete_logo" value="1" class="delete-image-btn" formnovalidate onclick="return confirm('Logo wirklich löschen?');">Logo löschen</button>
+      <?php endif; ?>
 
       <label for="sort_order">Reihenfolge</label>
       <input type="number" id="sort_order" name="sort_order" value="<?php echo (int) $sortOrder; ?>">
