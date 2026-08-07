@@ -5,6 +5,7 @@ require __DIR__ . '/../includes/db.php';
 require __DIR__ . '/../includes/content.php';
 require __DIR__ . '/../includes/upload.php';
 require __DIR__ . '/../includes/sanitize-html.php';
+require __DIR__ . '/../includes/board.php';
 
 requireLogin();
 
@@ -39,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verein_text'])) {
 $vereinText = getContentBlock($pageKey, $vereinTextKey, '');
 $visionMissionText = getContentBlock($pageKey, $visionMissionKey, '');
 $statutenDocument = getContentBlock($pageKey, $statutenKey, '');
+$boardMembers = getAllBoardMembers();
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -104,6 +106,37 @@ $statutenDocument = getContentBlock($pageKey, $statutenKey, '');
 
       <button type="submit">Speichern</button>
     </form>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <h1>Vorstand</h1>
+      <a class="new-btn" href="/admin/board-edit.php">+ Neu</a>
+    </div>
+    <?php if (empty($boardMembers)): ?>
+      <p class="empty">Noch keine Vorstandsmitglieder vorhanden.</p>
+    <?php else: ?>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Funktion</th>
+          <th></th>
+        </tr>
+        <?php foreach ($boardMembers as $member): ?>
+          <tr>
+            <td><?php echo htmlspecialchars($member['name']); ?></td>
+            <td><?php echo htmlspecialchars($member['role'] ?? ''); ?></td>
+            <td>
+              <a href="/admin/board-edit.php?id=<?php echo (int) $member['id']; ?>">Bearbeiten</a>
+              <form method="post" action="/admin/board-delete.php" style="display:inline" onsubmit="return confirm('Vorstandsmitglied wirklich löschen?');">
+                <input type="hidden" name="id" value="<?php echo (int) $member['id']; ?>">
+                <button type="submit" class="delete-btn">L&ouml;schen</button>
+              </form>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
+    <?php endif; ?>
   </div>
 
   <script src="../assets/js/wysiwyg.js"></script>
