@@ -32,7 +32,7 @@ $projectsCount = (int) getDb()->query('SELECT COUNT(*) FROM projects')->fetchCol
     <h2>NSH Admin</h2>
     <nav>
       <a href="/admin/edit.php">Startseite</a>
-      <a href="#">&Uuml;ber uns</a>
+      <a href="/admin/about.php">&Uuml;ber uns</a>
       <a href="#">Naturschutzsp&uuml;rhunde</a>
       <a href="/admin/projects.php">Projekte</a>
       <a href="/admin/dogs.php">Unsere Hunde</a>
