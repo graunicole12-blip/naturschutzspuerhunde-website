@@ -4,6 +4,7 @@ require __DIR__ . '/includes/auth.php';
 require __DIR__ . '/../includes/db.php';
 require __DIR__ . '/../includes/content.php';
 require __DIR__ . '/../includes/projects.php';
+require __DIR__ . '/../includes/sanitize-html.php';
 
 requireLogin();
 
@@ -12,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['forschung_text'])) {
         'INSERT INTO content_blocks (page_key, block_key, content) VALUES (?, ?, ?)
          ON DUPLICATE KEY UPDATE content = VALUES(content)'
     );
-    $stmt->execute(['projekte', 'forschung_text', trim($_POST['forschung_text'])]);
+    $stmt->execute(['projekte', 'forschung_text', sanitizeHtml(trim($_POST['forschung_text']))]);
     header('Location: /admin/projects.php');
     exit;
 }
@@ -27,6 +28,7 @@ $forschungText = getContentBlock('projekte', 'forschung_text', '');
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projekte &ndash; Naturschutzsp&uuml;rhunde Admin</title>
   <link rel="stylesheet" href="../assets/css/variables.css">
+  <link rel="stylesheet" href="../assets/css/wysiwyg.css">
   <style>
     body { font-family: var(--font-text); margin: 0; background: var(--color-neutral-cream); }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; }
@@ -91,5 +93,9 @@ $forschungText = getContentBlock('projekte', 'forschung_text', '');
       <button type="submit" class="save-btn">Speichern</button>
     </form>
   </div>
+  <script src="../assets/js/wysiwyg.js"></script>
+  <script>
+    initWysiwyg('forschung_text');
+  </script>
 </body>
 </html>

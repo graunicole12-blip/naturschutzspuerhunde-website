@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/includes/content.php';
 require __DIR__ . '/includes/projects.php';
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
@@ -33,7 +34,7 @@ if ($project === null) {
         <span class="teaser-badge"><?php echo htmlspecialchars(PROJECT_STATUSES[$project['status']] ?? $project['status']); ?></span>
       <?php endif; ?>
       <h1><?php echo htmlspecialchars($project['title']); ?></h1>
-      <p><?php echo nl2br(htmlspecialchars($project['content'] ?? '')); ?></p>
+      <p><?php echo renderRichText($project['content'] ?? ''); ?></p>
     <?php endif; ?>
   </main>
 
