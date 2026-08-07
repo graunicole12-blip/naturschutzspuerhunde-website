@@ -57,6 +57,15 @@ CREATE TABLE IF NOT EXISTS board_members (
   sort_order INT NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS partners (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  description TEXT,
+  link VARCHAR(255),
+  logo VARCHAR(255),
+  sort_order INT NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Generische Key-Value-Ablage fuer Einstellungen (Issue #40), u.a. Wartungsmodus:
 -- maintenance_mode ('1'/'0'), maintenance_text, maintenance_preview_token
 CREATE TABLE IF NOT EXISTS settings (
