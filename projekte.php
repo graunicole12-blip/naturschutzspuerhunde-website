@@ -1,6 +1,8 @@
 <?php
+require __DIR__ . '/includes/content.php';
 require __DIR__ . '/includes/projects.php';
 $projects = getAllProjects();
+$forschungText = getContentBlock('projekte', 'forschung_text', 'Unsere Forschungsbeiträge sind in Vorbereitung.');
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -34,6 +36,11 @@ $projects = getAllProjects();
         <?php endforeach; ?>
       </div>
     <?php endif; ?>
+
+    <section>
+      <h2>Forschung</h2>
+      <p><?php echo nl2br(htmlspecialchars($forschungText)); ?></p>
+    </section>
   </main>
 
   <?php require __DIR__ . '/includes/footer.php'; ?>
