@@ -2,11 +2,23 @@
 
 require __DIR__ . '/includes/auth.php';
 require __DIR__ . '/../includes/db.php';
+require __DIR__ . '/../includes/content.php';
 require __DIR__ . '/../includes/projects.php';
 
 requireLogin();
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['forschung_text'])) {
+    $stmt = getDb()->prepare(
+        'INSERT INTO content_blocks (page_key, block_key, content) VALUES (?, ?, ?)
+         ON DUPLICATE KEY UPDATE content = VALUES(content)'
+    );
+    $stmt->execute(['projekte', 'forschung_text', trim($_POST['forschung_text'])]);
+    header('Location: /admin/projects.php');
+    exit;
+}
+
 $projects = getDb()->query('SELECT id, title, status FROM projects ORDER BY sort_order ASC, title ASC')->fetchAll();
+$forschungText = getContentBlock('projekte', 'forschung_text', '');
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -29,6 +41,9 @@ $projects = getDb()->query('SELECT id, title, status FROM projects ORDER BY sort
     td a { color: var(--color-secondary-gold); text-decoration: none; margin-right: 12px; }
     .delete-btn { background: none; border: none; color: var(--color-accent-red); font-size: 13px; cursor: pointer; padding: 0; }
     .empty { color: var(--color-secondary-khaki); font-size: 13px; }
+    textarea { width: 100%; box-sizing: border-box; min-height: 100px; border: 1px solid var(--color-neutral-blue); border-radius: 6px; padding: 10px; font-size: 14px; font-family: var(--font-text); }
+    label { display: block; font-size: 12px; color: var(--color-primary); margin: 0 0 4px; }
+    .save-btn { background: var(--color-accent-red); color: #fff; border: none; border-radius: 6px; height: 36px; padding: 0 20px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 12px; }
   </style>
 </head>
 <body>
@@ -65,6 +80,16 @@ $projects = getDb()->query('SELECT id, title, status FROM projects ORDER BY sort
         <?php endforeach; ?>
       </table>
     <?php endif; ?>
+  </div>
+  <div class="panel">
+    <div class="panel-header">
+      <h1>Forschung</h1>
+    </div>
+    <form method="post">
+      <label for="forschung_text">Text im Forschungsbereich der Projekte-Seite</label>
+      <textarea id="forschung_text" name="forschung_text" placeholder="Publikationen, Berichte oder Links zur Forschung..."><?php echo htmlspecialchars($forschungText); ?></textarea>
+      <button type="submit" class="save-btn">Speichern</button>
+    </form>
   </div>
 </body>
 </html>
