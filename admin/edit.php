@@ -3,6 +3,7 @@
 require __DIR__ . '/includes/auth.php';
 require __DIR__ . '/../includes/db.php';
 require __DIR__ . '/../includes/upload.php';
+require __DIR__ . '/../includes/sanitize-html.php';
 
 requireLogin();
 
@@ -26,9 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_image'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $content = trim($_POST['content'] ?? '');
-    $nshText = trim($_POST['nsh_text'] ?? '');
-    $ctaText = trim($_POST['cta_text'] ?? '');
+    $content = sanitizeHtml(trim($_POST['content'] ?? ''));
+    $nshText = sanitizeHtml(trim($_POST['nsh_text'] ?? ''));
+    $ctaText = sanitizeHtml(trim($_POST['cta_text'] ?? ''));
     $ctaLink = trim($_POST['cta_link'] ?? '');
     $stmt = getDb()->prepare(
         'INSERT INTO content_blocks (page_key, block_key, content) VALUES (?, ?, ?)
@@ -68,6 +69,7 @@ $currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Startseite bearbeiten &ndash; Naturschutzsp&uuml;rhunde Admin</title>
   <link rel="stylesheet" href="../assets/css/variables.css">
+  <link rel="stylesheet" href="../assets/css/wysiwyg.css">
   <style>
     body { font-family: var(--font-text); margin: 0; background: var(--color-neutral-cream); }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; }
@@ -153,15 +155,16 @@ $currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
     </div>
   </div>
 
+  <script src="../assets/js/wysiwyg.js"></script>
   <script>
     document.getElementById('content').addEventListener('input', function (e) {
-      document.getElementById('previewText').textContent = e.target.value;
+      document.getElementById('previewText').innerHTML = e.target.value;
     });
     document.getElementById('nsh_text').addEventListener('input', function (e) {
-      document.getElementById('previewNshText').textContent = e.target.value;
+      document.getElementById('previewNshText').innerHTML = e.target.value;
     });
     document.getElementById('cta_text').addEventListener('input', function (e) {
-      document.getElementById('previewCtaText').textContent = e.target.value;
+      document.getElementById('previewCtaText').innerHTML = e.target.value;
     });
     document.getElementById('cta_link').addEventListener('input', function (e) {
       document.getElementById('previewCtaButton').href = e.target.value;
@@ -175,6 +178,10 @@ $currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
       img.src = URL.createObjectURL(file);
       img.style.display = '';
     });
+
+    initWysiwyg('content');
+    initWysiwyg('nsh_text');
+    initWysiwyg('cta_text');
   </script>
 </body>
 </html>

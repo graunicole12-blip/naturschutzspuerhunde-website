@@ -32,12 +32,12 @@ $latestNews = getLatestNews();
 
     <section>
       <h1>Vision</h1>
-      <p><?php echo nl2br(htmlspecialchars($vision)); ?></p>
+      <p><?php echo renderRichText($vision); ?></p>
     </section>
 
     <section>
       <h2>Was sind Naturschutzspürhunde?</h2>
-      <p><?php echo nl2br(htmlspecialchars($nshText)); ?></p>
+      <p><?php echo renderRichText($nshText); ?></p>
     </section>
 
     <section>
@@ -62,7 +62,7 @@ $latestNews = getLatestNews();
 
   <section class="cta-section">
     <h2>Unterstützen</h2>
-    <p><?php echo nl2br(htmlspecialchars($ctaText)); ?></p>
+    <p><?php echo renderRichText($ctaText); ?></p>
     <a class="cta-button" href="<?php echo htmlspecialchars($ctaLink); ?>" target="_blank" rel="noopener">Jetzt unterstützen</a>
   </section>
 
