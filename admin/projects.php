@@ -4,7 +4,7 @@ require __DIR__ . '/includes/auth.php';
 require __DIR__ . '/../includes/db.php';
 require __DIR__ . '/../includes/content.php';
 require __DIR__ . '/../includes/projects.php';
-require __DIR__ . '/../includes/sanitize-html.php';
+require_once __DIR__ . '/../includes/sanitize-html.php';
 
 requireLogin();
 
