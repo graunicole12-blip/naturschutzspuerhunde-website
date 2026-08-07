@@ -47,13 +47,13 @@ $latestNews = getLatestNews();
       <?php else: ?>
         <div class="teaser-grid">
           <?php foreach ($featuredProjects as $project): ?>
-            <div class="teaser-card">
+            <a class="teaser-card" href="/projekt.php?id=<?php echo (int) $project['id']; ?>" style="display:block;text-decoration:none;color:inherit;">
               <?php if (!empty($project['image'])): ?>
                 <img src="/uploads/<?php echo htmlspecialchars($project['image']); ?>" alt="">
               <?php endif; ?>
               <h3><?php echo htmlspecialchars($project['title']); ?></h3>
               <p><?php echo htmlspecialchars(mb_strimwidth(trim($project['content'] ?? ''), 0, 140, '…')); ?></p>
-            </div>
+            </a>
           <?php endforeach; ?>
         </div>
       <?php endif; ?>
