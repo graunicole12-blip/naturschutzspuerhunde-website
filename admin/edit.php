@@ -15,6 +15,16 @@ $ctaLinkBlockKey = 'cta_link';
 $message = '';
 $error = '';
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_image'])) {
+    $stmt = getDb()->prepare(
+        'INSERT INTO content_blocks (page_key, block_key, content) VALUES (?, ?, ?)
+         ON DUPLICATE KEY UPDATE content = VALUES(content)'
+    );
+    $stmt->execute([$pageKey, $imageBlockKey, '']);
+    header('Location: /admin/edit.php');
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content = trim($_POST['content'] ?? '');
     $nshText = trim($_POST['nsh_text'] ?? '');
@@ -70,6 +80,7 @@ $currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
     input[type="text"] { width: 100%; box-sizing: border-box; border: 1px solid var(--color-neutral-blue); border-radius: 6px; padding: 8px; font-size: 14px; font-family: var(--font-text); }
     input[type="file"] { font-size: 13px; }
     button { background: var(--color-accent-red); color: #fff; border: none; border-radius: 6px; height: 36px; padding: 0 20px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 16px; }
+    .delete-image-btn { background: var(--color-secondary-gold); margin-top: 8px; margin-left: 8px; height: 30px; padding: 0 14px; font-size: 13px; }
     .message { color: var(--color-secondary-gold); font-size: 13px; }
     .error { color: var(--color-accent-red); font-size: 13px; }
     .current-image { max-width: 240px; display: block; margin-top: 8px; border-radius: 6px; }
@@ -113,6 +124,9 @@ $currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
         <?php endif; ?>
         <input type="file" id="hero_image" name="hero_image" accept="image/jpeg,image/png,image/webp">
         <p class="hint">JPEG, PNG oder WebP, max. 5 MB.</p>
+        <?php if ($currentImage !== ''): ?>
+          <button type="submit" name="delete_image" value="1" class="delete-image-btn" formnovalidate onclick="return confirm('Hero-Bild wirklich löschen?');">Bild löschen</button>
+        <?php endif; ?>
 
         <label for="cta_text">Unterst&uuml;tzen &ndash; Kurztext</label>
         <textarea id="cta_text" name="cta_text" placeholder="Kurztext f&uuml;r die Unterst&uuml;tzen-Sektion..."><?php echo htmlspecialchars($currentCtaText); ?></textarea>
