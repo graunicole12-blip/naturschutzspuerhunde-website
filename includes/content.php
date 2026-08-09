@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/sanitize-html.php';
+require_once __DIR__ . '/blocks.php';
 
 function getContentBlock(string $pageKey, string $blockKey, string $default = ''): string
 {
@@ -13,5 +14,15 @@ function getContentBlock(string $pageKey, string $blockKey, string $default = ''
 
 function renderRichText(?string $raw): string
 {
-    return nl2br(sanitizeHtml($raw ?? ''));
+    $raw = $raw ?? '';
+    if ($raw === '') {
+        return '';
+    }
+
+    if (isBlockJson($raw)) {
+        return renderBlockList(json_decode($raw, true));
+    }
+
+    // Legacy format: plain sanitized HTML string, from before the block editor.
+    return nl2br(sanitizeHtml($raw));
 }
