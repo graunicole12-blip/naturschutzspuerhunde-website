@@ -27,6 +27,21 @@ function renderRichText(?string $raw): string
     return nl2br(sanitizeHtml($raw));
 }
 
+function clampCardLimit(?string $raw, int $default = 3, int $min = 1, int $max = 12): int
+{
+    $raw = trim($raw ?? '');
+    if ($raw === '' || !ctype_digit($raw)) {
+        return $default;
+    }
+
+    $value = (int) $raw;
+    if ($value < $min) {
+        return $default;
+    }
+
+    return min($value, $max);
+}
+
 function renderPlainText(?string $raw): string
 {
     $raw = $raw ?? '';

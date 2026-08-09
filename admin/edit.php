@@ -4,6 +4,7 @@ require __DIR__ . '/includes/auth.php';
 require __DIR__ . '/../includes/db.php';
 require __DIR__ . '/../includes/upload.php';
 require __DIR__ . '/../includes/sanitize-html.php';
+require __DIR__ . '/../includes/content.php';
 
 requireLogin();
 
@@ -14,6 +15,9 @@ $imageBlockKey = 'hero_image';
 $ausbildungTeaserBlockKey = 'ausbildung_teaser_text';
 $ctaTextBlockKey = 'cta_text';
 $ctaLinkBlockKey = 'cta_link';
+$projekteAnzahlKey = 'projekte_anzahl';
+$hundeAnzahlKey = 'hunde_anzahl';
+$newsAnzahlKey = 'news_anzahl';
 $message = '';
 $error = '';
 
@@ -33,6 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ausbildungTeaserText = sanitizeHtml(trim($_POST['ausbildung_teaser_text'] ?? ''));
     $ctaText = sanitizeHtml(trim($_POST['cta_text'] ?? ''));
     $ctaLink = trim($_POST['cta_link'] ?? '');
+    $projekteAnzahl = clampCardLimit($_POST['projekte_anzahl'] ?? null);
+    $hundeAnzahl = clampCardLimit($_POST['hunde_anzahl'] ?? null);
+    $newsAnzahl = clampCardLimit($_POST['news_anzahl'] ?? null);
     $stmt = getDb()->prepare(
         'INSERT INTO content_blocks (page_key, block_key, content) VALUES (?, ?, ?)
          ON DUPLICATE KEY UPDATE content = VALUES(content)'
@@ -42,6 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$pageKey, $ausbildungTeaserBlockKey, $ausbildungTeaserText]);
     $stmt->execute([$pageKey, $ctaTextBlockKey, $ctaText]);
     $stmt->execute([$pageKey, $ctaLinkBlockKey, $ctaLink]);
+    $stmt->execute([$pageKey, $projekteAnzahlKey, (string) $projekteAnzahl]);
+    $stmt->execute([$pageKey, $hundeAnzahlKey, (string) $hundeAnzahl]);
+    $stmt->execute([$pageKey, $newsAnzahlKey, (string) $newsAnzahl]);
 
     $uploadResult = handleImageUpload($_FILES['hero_image'] ?? [], __DIR__ . '/../uploads');
     if ($uploadResult['error'] !== null) {
@@ -53,8 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = $error === '' ? 'Gespeichert.' : '';
 }
 
-$stmt = getDb()->prepare('SELECT block_key, content FROM content_blocks WHERE page_key = ? AND block_key IN (?, ?, ?, ?, ?, ?)');
-$stmt->execute([$pageKey, $textBlockKey, $nshBlockKey, $imageBlockKey, $ausbildungTeaserBlockKey, $ctaTextBlockKey, $ctaLinkBlockKey]);
+$stmt = getDb()->prepare('SELECT block_key, content FROM content_blocks WHERE page_key = ? AND block_key IN (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+$stmt->execute([$pageKey, $textBlockKey, $nshBlockKey, $imageBlockKey, $ausbildungTeaserBlockKey, $ctaTextBlockKey, $ctaLinkBlockKey, $projekteAnzahlKey, $hundeAnzahlKey, $newsAnzahlKey]);
 $blocks = [];
 foreach ($stmt->fetchAll() as $row) {
     $blocks[$row['block_key']] = $row['content'];
@@ -65,6 +75,9 @@ $currentImage = $blocks[$imageBlockKey] ?? '';
 $currentAusbildungTeaserText = $blocks[$ausbildungTeaserBlockKey] ?? '';
 $currentCtaText = $blocks[$ctaTextBlockKey] ?? '';
 $currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
+$currentProjekteAnzahl = clampCardLimit($blocks[$projekteAnzahlKey] ?? null);
+$currentHundeAnzahl = clampCardLimit($blocks[$hundeAnzahlKey] ?? null);
+$currentNewsAnzahl = clampCardLimit($blocks[$newsAnzahlKey] ?? null);
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -83,7 +96,7 @@ $currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
     select { width: 260px; margin-bottom: 12px; padding: 6px; }
     label { display: block; font-size: 12px; color: var(--color-primary); margin: 16px 0 4px; }
     textarea { width: 100%; box-sizing: border-box; min-height: 100px; border: 1px solid var(--color-neutral-blue); border-radius: 6px; padding: 10px; font-size: 14px; font-family: var(--font-text); }
-    input[type="text"] { width: 100%; box-sizing: border-box; border: 1px solid var(--color-neutral-blue); border-radius: 6px; padding: 8px; font-size: 14px; font-family: var(--font-text); }
+    input[type="text"], input[type="number"] { width: 100%; box-sizing: border-box; border: 1px solid var(--color-neutral-blue); border-radius: 6px; padding: 8px; font-size: 14px; font-family: var(--font-text); }
     input[type="file"] { font-size: 13px; }
     button { background: var(--color-accent-red); color: #fff; border: none; border-radius: 6px; height: 36px; padding: 0 20px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 16px; }
     .delete-image-btn { background: var(--color-secondary-gold); margin-top: 8px; margin-left: 8px; height: 30px; padding: 0 14px; font-size: 13px; }
@@ -142,6 +155,16 @@ $currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
 
         <label for="cta_link">Unterst&uuml;tzen &ndash; Link (Button-Ziel)</label>
         <input type="text" id="cta_link" name="cta_link" value="<?php echo htmlspecialchars($currentCtaLink); ?>" placeholder="https://...">
+
+        <label for="projekte_anzahl">Anzahl Projekt-Karten</label>
+        <input type="number" id="projekte_anzahl" name="projekte_anzahl" min="1" max="12" value="<?php echo (int) $currentProjekteAnzahl; ?>">
+
+        <label for="hunde_anzahl">Anzahl Hunde-Karten</label>
+        <input type="number" id="hunde_anzahl" name="hunde_anzahl" min="1" max="12" value="<?php echo (int) $currentHundeAnzahl; ?>">
+
+        <label for="news_anzahl">Anzahl News-Karten</label>
+        <input type="number" id="news_anzahl" name="news_anzahl" min="1" max="12" value="<?php echo (int) $currentNewsAnzahl; ?>">
+        <p class="hint">Erlaubter Bereich: 1&ndash;12. Ungültige Eingaben werden beim Speichern auf 3 zurückgesetzt.</p>
 
         <button type="submit">Speichern</button>
       </form>
