@@ -24,22 +24,22 @@ $weiterbildungText = getContentBlock($pageKey, 'weiterbildung_text', 'Text folgt
 
     <section>
       <h2>Qualitätsstandards</h2>
-      <p><?php echo renderRichText($qualitaetText); ?></p>
+      <div><?php echo renderRichText($qualitaetText); ?></div>
     </section>
 
     <section>
       <h2>Internationale Zusammenarbeit</h2>
-      <p><?php echo renderRichText($zusammenarbeitText); ?></p>
+      <div><?php echo renderRichText($zusammenarbeitText); ?></div>
     </section>
 
     <section>
       <h2>Assessments</h2>
-      <p><?php echo renderRichText($assessmentsText); ?></p>
+      <div><?php echo renderRichText($assessmentsText); ?></div>
     </section>
 
     <section>
       <h2>Weiterbildung</h2>
-      <p><?php echo renderRichText($weiterbildungText); ?></p>
+      <div><?php echo renderRichText($weiterbildungText); ?></div>
       <p>Fragen zur Weiterbildung? <a href="/kontakt.php">Kontaktiere uns</a>.</p>
     </section>
   </main>

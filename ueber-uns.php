@@ -27,7 +27,7 @@ $partners = getAllPartners();
 
     <section>
       <h2>Der Verein</h2>
-      <p><?php echo renderRichText($vereinText); ?></p>
+      <div><?php echo renderRichText($vereinText); ?></div>
       <?php if ($statutenDocument !== ''): ?>
         <p><a href="/uploads/<?php echo htmlspecialchars($statutenDocument); ?>" target="_blank" rel="noopener">Statuten herunterladen (PDF)</a></p>
       <?php endif; ?>
@@ -35,7 +35,7 @@ $partners = getAllPartners();
 
     <section>
       <h2>Vision &amp; Mission</h2>
-      <p><?php echo renderRichText($visionMissionText); ?></p>
+      <div><?php echo renderRichText($visionMissionText); ?></div>
     </section>
 
     <section>
@@ -53,7 +53,7 @@ $partners = getAllPartners();
               <?php if (!empty($member['role'])): ?>
                 <span class="teaser-badge"><?php echo htmlspecialchars($member['role']); ?></span>
               <?php endif; ?>
-              <p><?php echo renderRichText($member['bio'] ?? ''); ?></p>
+              <div><?php echo renderRichText($member['bio'] ?? ''); ?></div>
             </div>
           <?php endforeach; ?>
         </div>
@@ -72,7 +72,7 @@ $partners = getAllPartners();
                 <img src="/uploads/<?php echo htmlspecialchars($partner['logo']); ?>" alt="">
               <?php endif; ?>
               <h3><?php echo htmlspecialchars($partner['name']); ?></h3>
-              <p><?php echo renderRichText($partner['description'] ?? ''); ?></p>
+              <div><?php echo renderRichText($partner['description'] ?? ''); ?></div>
               <?php if (!empty($partner['link'])): ?>
                 <p><a href="<?php echo htmlspecialchars($partner['link']); ?>" target="_blank" rel="noopener">Website besuchen</a></p>
               <?php endif; ?>

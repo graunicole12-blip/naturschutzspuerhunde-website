@@ -28,7 +28,7 @@ $forschungText = getContentBlock('projekte', 'forschung_text', '');
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projekte &ndash; Naturschutzsp&uuml;rhunde Admin</title>
   <link rel="stylesheet" href="../assets/css/variables.css">
-  <link rel="stylesheet" href="../assets/css/wysiwyg.css">
+  <link rel="stylesheet" href="../assets/css/block-editor.css">
   <style>
     body { font-family: var(--font-text); margin: 0; background: var(--color-neutral-cream); }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; }
@@ -93,9 +93,9 @@ $forschungText = getContentBlock('projekte', 'forschung_text', '');
       <button type="submit" class="save-btn">Speichern</button>
     </form>
   </div>
-  <script src="../assets/js/wysiwyg.js"></script>
+  <script src="../assets/js/block-editor.js"></script>
   <script>
-    initWysiwyg('forschung_text');
+    initBlockEditor('forschung_text');
   </script>
 </body>
 </html>

@@ -26,25 +26,25 @@ $crowdfundingText = getContentBlock($pageKey, 'crowdfunding_text', 'Unterstütze
 
     <section>
       <h2>Spenden</h2>
-      <p><?php echo renderRichText($spendenText); ?></p>
+      <div><?php echo renderRichText($spendenText); ?></div>
       <p><a class="cta-button" href="<?php echo htmlspecialchars(LOKALHELDEN_URL); ?>" target="_blank" rel="noopener">Jetzt spenden</a></p>
     </section>
 
     <section>
       <h2>Mitglied werden</h2>
-      <p><?php echo renderRichText($mitgliedText); ?></p>
+      <div><?php echo renderRichText($mitgliedText); ?></div>
       <p><a href="/kontakt.php">Für eine Mitgliedschaft kontaktieren &rarr;</a></p>
     </section>
 
     <section>
       <h2>Sponsoring</h2>
-      <p><?php echo renderRichText($sponsoringText); ?></p>
+      <div><?php echo renderRichText($sponsoringText); ?></div>
       <p><a href="/kontakt.php">Für Sponsoring kontaktieren &rarr;</a></p>
     </section>
 
     <section>
       <h2>Crowdfunding</h2>
-      <p><?php echo renderRichText($crowdfundingText); ?></p>
+      <div><?php echo renderRichText($crowdfundingText); ?></div>
       <p><a class="cta-button" href="<?php echo htmlspecialchars(LOKALHELDEN_URL); ?>" target="_blank" rel="noopener">Zur Lokalhelden-Kampagne</a></p>
     </section>
   </main>

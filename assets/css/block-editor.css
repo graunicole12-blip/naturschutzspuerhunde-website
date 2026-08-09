@@ -1,3 +1,7 @@
+.wysiwyg-hidden-source {
+  display: none;
+}
+
 .block-editor {
   border: 1px solid var(--color-neutral-blue);
   border-radius: 6px;

@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php echo $id > 0 ? 'Profil bearbeiten' : 'Neues Profil'; ?> &ndash; Naturschutzsp&uuml;rhunde Admin</title>
   <link rel="stylesheet" href="../assets/css/variables.css">
-  <link rel="stylesheet" href="../assets/css/wysiwyg.css">
+  <link rel="stylesheet" href="../assets/css/block-editor.css">
   <style>
     body { font-family: var(--font-text); margin: 0; background: var(--color-neutral-cream); }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; }
@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   </div>
 
-  <script src="../assets/js/wysiwyg.js"></script>
+  <script src="../assets/js/block-editor.js"></script>
   <script>
     document.getElementById('name').addEventListener('input', function (e) {
       document.getElementById('previewName').textContent = e.target.value || 'Name des Hundes';
@@ -188,10 +188,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       document.getElementById('previewEinsatzgebiet').textContent = e.target.value;
     });
     document.getElementById('charakter').addEventListener('input', function (e) {
-      document.getElementById('previewCharakter').innerHTML = e.target.value;
+      document.getElementById('previewCharakter').innerHTML = renderBlocksToHtml(e.target.value);
     });
     document.getElementById('bio').addEventListener('input', function (e) {
-      document.getElementById('previewBio').innerHTML = e.target.value;
+      document.getElementById('previewBio').innerHTML = renderBlocksToHtml(e.target.value);
     });
     document.getElementById('is_active').addEventListener('change', function (e) {
       document.getElementById('previewStatus').textContent = e.target.checked ? 'Aktiv' : 'Wegbereiterin';
@@ -206,8 +206,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       img.style.display = '';
     });
 
-    initWysiwyg('charakter');
-    initWysiwyg('bio');
+    initBlockEditor('charakter');
+    initBlockEditor('bio');
   </script>
 </body>
 </html>

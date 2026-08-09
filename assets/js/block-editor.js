@@ -343,4 +343,51 @@
 
     render();
   };
+
+  function escapeHtml(text) {
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Client-side preview rendering only (mirrors includes/blocks.php's
+  // renderBlockList() for admin live-preview panels). The authoritative,
+  // security-relevant sanitization always happens server-side on save/render.
+  window.renderBlocksToHtml = function (raw) {
+    var trimmed = (raw || '').trim();
+    if (trimmed === '') {
+      return '';
+    }
+    if (trimmed.charAt(0) !== '[') {
+      return trimmed;
+    }
+    var blocks;
+    try {
+      blocks = JSON.parse(trimmed);
+    } catch (e) {
+      return trimmed;
+    }
+    if (!Array.isArray(blocks)) {
+      return trimmed;
+    }
+
+    return blocks.map(function (block) {
+      switch (block.type) {
+        case 'heading':
+          return '<h3 class="block-heading">' + escapeHtml(block.content || '') + '</h3>';
+        case 'quote':
+          return '<blockquote class="block-quote">' + (block.content || '') + '</blockquote>';
+        case 'image':
+          return block.src
+            ? '<img src="/uploads/' + escapeHtml(block.src) + '" alt="' + escapeHtml(block.alt || '') + '" class="block-image">'
+            : '';
+        case 'list':
+          return '<ul class="block-list">' + (block.items || []).map(function (item) {
+            return '<li>' + escapeHtml(item) + '</li>';
+          }).join('') + '</ul>';
+        default:
+          return '<p class="block-paragraph">' + (block.content || '') + '</p>';
+      }
+    }).join('');
+  };
 })();
