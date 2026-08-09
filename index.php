@@ -41,6 +41,7 @@ $activeDogs = getActiveDogs();
     <section>
       <h2>Was sind Naturschutzspürhunde?</h2>
       <p><?php echo renderRichText($nshText); ?></p>
+      <p><a href="/naturschutzspuerhunde.php">Mehr erfahren &rarr;</a></p>
     </section>
 
     <section>

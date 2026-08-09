@@ -33,7 +33,7 @@ $projectsCount = (int) getDb()->query('SELECT COUNT(*) FROM projects')->fetchCol
     <nav>
       <a href="/admin/edit.php">Startseite</a>
       <a href="/admin/about.php">&Uuml;ber uns</a>
-      <a href="#">Naturschutzsp&uuml;rhunde</a>
+      <a href="/admin/naturschutzspuerhunde.php">Naturschutzsp&uuml;rhunde</a>
       <a href="/admin/projects.php">Projekte</a>
       <a href="/admin/dogs.php">Unsere Hunde</a>
       <a href="/admin/ausbildung.php">Ausbildung</a>
