@@ -42,6 +42,26 @@ function clampCardLimit(?string $raw, int $default = 3, int $min = 1, int $max =
     return min($value, $max);
 }
 
+const HERO_IMAGE_ALIGNMENTS = ['left', 'center', 'right'];
+
+function clampAlignment(?string $raw, string $default = 'center'): string
+{
+    $raw = trim($raw ?? '');
+    return in_array($raw, HERO_IMAGE_ALIGNMENTS, true) ? $raw : $default;
+}
+
+function heroImageAlignStyle(string $align): string
+{
+    switch ($align) {
+        case 'left':
+            return 'margin-left:0;margin-right:auto;';
+        case 'right':
+            return 'margin-left:auto;margin-right:0;';
+        default:
+            return 'margin-left:auto;margin-right:auto;';
+    }
+}
+
 function renderPlainText(?string $raw): string
 {
     $raw = $raw ?? '';
