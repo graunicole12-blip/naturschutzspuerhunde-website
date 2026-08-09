@@ -17,6 +17,7 @@ if ($project === null) {
   <title><?php echo $project !== null ? htmlspecialchars($project['title']) . ' &ndash; ' : ''; ?>Projekte &ndash; Naturschutzspürhunde Schweiz</title>
   <link rel="stylesheet" href="/assets/css/variables.css">
   <link rel="stylesheet" href="/assets/css/site.css">
+  <?php require __DIR__ . '/includes/link-style.php'; ?>
 </head>
 <body>
   <?php require __DIR__ . '/includes/header.php'; ?>

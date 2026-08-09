@@ -11,6 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'save_settings') {
         setSetting('maintenance_mode', isset($_POST['maintenance_mode']) ? '1' : '0');
         setSetting('maintenance_text', trim($_POST['maintenance_text'] ?? ''));
+    } elseif ($action === 'save_link_settings') {
+        setSetting('link_color', sanitizeHexColor($_POST['link_color'] ?? null, '#b82020'));
+        setSetting('link_underline', isset($_POST['link_underline']) ? '1' : '0');
+        setSetting('link_hover_color', sanitizeHexColor($_POST['link_hover_color'] ?? null, '#a33122'));
     } elseif ($action === 'generate_preview') {
         setSetting('maintenance_preview_token', bin2hex(random_bytes(16)));
     } elseif ($action === 'revoke_preview') {
@@ -24,6 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $maintenanceMode = getSetting('maintenance_mode', '0') === '1';
 $maintenanceText = getSetting('maintenance_text', '');
 $previewToken = getSetting('maintenance_preview_token', '');
+
+$linkColor = sanitizeHexColor(getSetting('link_color', ''), '#b82020');
+$linkUnderline = getSetting('link_underline', '1') === '1';
+$linkHoverColor = sanitizeHexColor(getSetting('link_hover_color', ''), '#a33122');
 
 $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
 $previewUrl = $previewToken !== ''
@@ -48,6 +56,8 @@ $previewUrl = $previewToken !== ''
     textarea { width: 100%; box-sizing: border-box; border: 1px solid var(--color-neutral-blue); border-radius: 6px; padding: 8px; font-size: 14px; font-family: var(--font-text); min-height: 90px; }
     .checkbox-row { display: flex; align-items: center; gap: 8px; margin: 16px 0 0; }
     .checkbox-row label { margin: 0; }
+    input[type="color"] { width: 60px; height: 36px; border: 1px solid var(--color-neutral-blue); border-radius: 6px; padding: 2px; cursor: pointer; }
+    .link-preview { margin: 12px 0 0; font-size: 14px; }
     button { background: var(--color-accent-red); color: #fff; border: none; border-radius: 6px; height: 36px; padding: 0 20px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 16px; }
     button.secondary { background: var(--color-secondary-gold); }
     .hint { font-size: 12px; color: var(--color-secondary-khaki); margin: 4px 0 0; }
@@ -98,5 +108,43 @@ $previewUrl = $previewToken !== ''
       </form>
     <?php endif; ?>
   </div>
+
+  <div class="panel">
+    <h1>Link-Darstellung</h1>
+    <p class="hint">Gilt f&uuml;r Links innerhalb von Inhaltstexten (z.B. im Block-Editor eingef&uuml;gte Links). Header-Navigation und rote CTA-Buttons (z.B. &laquo;Jetzt unterst&uuml;tzen&raquo;) sind eigenst&auml;ndig gestaltet und bleiben unver&auml;ndert.</p>
+    <form method="post">
+      <input type="hidden" name="action" value="save_link_settings">
+
+      <label for="link_color">Textfarbe</label>
+      <input type="color" id="link_color" name="link_color" value="<?php echo htmlspecialchars($linkColor); ?>">
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="link_underline" name="link_underline" <?php echo $linkUnderline ? 'checked' : ''; ?>>
+        <label for="link_underline">Links unterstreichen</label>
+      </div>
+
+      <label for="link_hover_color">Hover-Farbe</label>
+      <input type="color" id="link_hover_color" name="link_hover_color" value="<?php echo htmlspecialchars($linkHoverColor); ?>">
+
+      <p class="link-preview">Vorschau: <a id="linkPreview" href="#" onclick="return false;" style="color:<?php echo htmlspecialchars($linkColor); ?>;text-decoration:<?php echo $linkUnderline ? 'underline' : 'none'; ?>;">Beispiellink in einem Inhaltstext</a></p>
+
+      <button type="submit">Speichern</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('link_color').addEventListener('input', function (e) {
+      document.getElementById('linkPreview').style.color = e.target.value;
+    });
+    document.getElementById('link_underline').addEventListener('change', function (e) {
+      document.getElementById('linkPreview').style.textDecoration = e.target.checked ? 'underline' : 'none';
+    });
+    document.getElementById('linkPreview').addEventListener('mouseenter', function () {
+      this.style.color = document.getElementById('link_hover_color').value;
+    });
+    document.getElementById('linkPreview').addEventListener('mouseleave', function () {
+      this.style.color = document.getElementById('link_color').value;
+    });
+  </script>
 </body>
 </html>
