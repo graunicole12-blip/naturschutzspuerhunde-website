@@ -99,16 +99,17 @@ $activeDogs = getActiveDogs();
       <?php else: ?>
         <div class="teaser-grid">
           <?php foreach ($latestNews as $item): ?>
-            <div class="teaser-card">
+            <a class="teaser-card" href="/news-beitrag.php?id=<?php echo (int) $item['id']; ?>" style="display:block;text-decoration:none;color:inherit;">
               <?php if (!empty($item['image'])): ?>
                 <img src="/uploads/<?php echo htmlspecialchars($item['image']); ?>" alt="">
               <?php endif; ?>
               <span class="teaser-badge"><?php echo htmlspecialchars(NEWS_CATEGORIES[$item['category']] ?? $item['category']); ?></span>
               <h3><?php echo htmlspecialchars($item['title']); ?></h3>
               <p><?php echo htmlspecialchars(date('d.m.Y', strtotime($item['published_at']))); ?></p>
-            </div>
+            </a>
           <?php endforeach; ?>
         </div>
+        <p><a href="/news.php">Alle News ansehen &rarr;</a></p>
       <?php endif; ?>
     </section>
   </main>
