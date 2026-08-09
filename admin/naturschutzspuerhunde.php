@@ -45,6 +45,7 @@ $warumHundeText = getContentBlock($pageKey, $warumHundeKey, '');
   <title>Naturschutzsp&uuml;rhunde &ndash; Naturschutzsp&uuml;rhunde Admin</title>
   <link rel="stylesheet" href="../assets/css/variables.css">
   <link rel="stylesheet" href="../assets/css/block-editor.css">
+  <link rel="stylesheet" href="../assets/css/focus-point.css">
   <style>
     body { font-family: var(--font-text); margin: 0; background: var(--color-neutral-cream); }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; }
@@ -89,6 +90,7 @@ $warumHundeText = getContentBlock($pageKey, $warumHundeKey, '');
   </div>
 
   <script src="../assets/js/block-editor.js"></script>
+  <script src="../assets/js/focus-point.js"></script>
   <script>
     initBlockEditor('was_sind_text');
     initBlockEditor('wie_arbeiten_text');

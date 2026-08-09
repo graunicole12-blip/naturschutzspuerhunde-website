@@ -50,6 +50,26 @@ function sanitizeBlocks(array $blocks): array
     return $sanitized;
 }
 
+function clampFocusPoint($raw, float $default = 50.0): float
+{
+    $raw = is_scalar($raw) ? trim((string) $raw) : '';
+    if ($raw === '' || !is_numeric($raw)) {
+        return $default;
+    }
+
+    $value = (float) $raw;
+    if ($value < 0 || $value > 100) {
+        return $default;
+    }
+
+    return round($value, 2);
+}
+
+function formatFocusPoint(float $value): string
+{
+    return number_format($value, 2, '.', '');
+}
+
 function sanitizeBlockColorKey($raw): ?string
 {
     $raw = is_string($raw) ? trim($raw) : '';
@@ -86,7 +106,9 @@ function sanitizeBlock(array $block): ?array
                 return null;
             }
             $alt = trim(strip_tags((string) ($block['alt'] ?? '')));
-            return ['type' => 'image', 'src' => $src, 'alt' => $alt];
+            $focusX = clampFocusPoint($block['focusX'] ?? null);
+            $focusY = clampFocusPoint($block['focusY'] ?? null);
+            return ['type' => 'image', 'src' => $src, 'alt' => $alt, 'focusX' => $focusX, 'focusY' => $focusY];
 
         case 'list':
             $items = [];
@@ -204,7 +226,8 @@ function renderBlockList(array $blocks): string
                 $html .= '<blockquote class="block-quote"' . $styleAttr . '>' . $block['content'] . '</blockquote>';
                 break;
             case 'image':
-                $html .= '<img src="/uploads/' . htmlspecialchars($block['src']) . '" alt="' . htmlspecialchars($block['alt']) . '" class="block-image">';
+                $focusStyle = '--block-focus-x:' . formatFocusPoint($block['focusX']) . '%;--block-focus-y:' . formatFocusPoint($block['focusY']) . '%;';
+                $html .= '<img src="/uploads/' . htmlspecialchars($block['src']) . '" alt="' . htmlspecialchars($block['alt']) . '" class="block-image" style="' . $focusStyle . '">';
                 break;
             case 'list':
                 $html .= '<ul class="block-list"' . $styleAttr . '>';

@@ -83,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title><?php echo $id > 0 ? 'Partner bearbeiten' : 'Neuer Partner'; ?> &ndash; Naturschutzsp&uuml;rhunde Admin</title>
   <link rel="stylesheet" href="../assets/css/variables.css">
   <link rel="stylesheet" href="../assets/css/block-editor.css">
+  <link rel="stylesheet" href="../assets/css/focus-point.css">
   <style>
     body { font-family: var(--font-text); margin: 0; background: var(--color-neutral-cream); }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; }
@@ -141,6 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
 
   <script src="../assets/js/block-editor.js"></script>
+  <script src="../assets/js/focus-point.js"></script>
   <script>
     initBlockEditor('description');
   </script>

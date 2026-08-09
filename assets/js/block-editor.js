@@ -40,6 +40,14 @@
 
   var nextLocalId = 1;
 
+  function clampFocusPoint(value) {
+    var num = parseFloat(value);
+    if (isNaN(num) || num < 0 || num > 100) {
+      return 50;
+    }
+    return num;
+  }
+
   function makeBlock(type) {
     var block = { id: 'b' + (nextLocalId++), type: type };
     if (type === 'list') {
@@ -47,6 +55,8 @@
     } else if (type === 'image') {
       block.src = '';
       block.alt = '';
+      block.focusX = 50;
+      block.focusY = 50;
     } else {
       block.content = '';
     }
@@ -68,6 +78,8 @@
     } else if (type === 'image') {
       block.src = typeof raw.src === 'string' ? raw.src : '';
       block.alt = typeof raw.alt === 'string' ? raw.alt : '';
+      block.focusX = clampFocusPoint(raw.focusX);
+      block.focusY = clampFocusPoint(raw.focusY);
     } else {
       block.content = typeof raw.content === 'string' ? raw.content : '';
     }
@@ -106,7 +118,7 @@
       if (block.type === 'list') {
         out = { type: 'list', items: block.items };
       } else if (block.type === 'image') {
-        return { type: 'image', src: block.src, alt: block.alt };
+        return { type: 'image', src: block.src, alt: block.alt, focusX: block.focusX, focusY: block.focusY };
       } else {
         out = { type: block.type, content: block.content };
       }
@@ -367,12 +379,34 @@
       var wrapper = document.createElement('div');
       wrapper.className = 'block-editor-image-field';
 
+      var focusContainer = document.createElement('div');
+
       var preview = document.createElement('img');
       preview.className = 'block-editor-image-preview';
+      focusContainer.appendChild(preview);
       if (block.src) {
         preview.src = '/uploads/' + block.src;
       } else {
-        preview.style.display = 'none';
+        focusContainer.style.display = 'none';
+      }
+
+      var focusHint = document.createElement('p');
+      focusHint.className = 'focus-point-hint';
+      focusHint.textContent = 'Auf das Bild klicken, um den Fokuspunkt zu setzen.';
+      focusHint.style.display = block.src ? '' : 'none';
+
+      var focusPicker = null;
+      function ensureFocusPicker() {
+        if (!focusPicker && typeof window.initFocusPoint === 'function') {
+          focusPicker = window.initFocusPoint(focusContainer, preview, block.focusX, block.focusY, function (x, y) {
+            block.focusX = x;
+            block.focusY = y;
+            sync();
+          });
+        }
+      }
+      if (block.src) {
+        ensureFocusPicker();
       }
 
       var fileInput = document.createElement('input');
@@ -408,10 +442,18 @@
           .then(function (data) {
             if (data.success) {
               block.src = data.filename;
+              block.focusX = 50;
+              block.focusY = 50;
               preview.src = data.url;
-              preview.style.display = '';
+              focusContainer.style.display = '';
+              focusHint.style.display = '';
               altInput.style.display = '';
               status.textContent = '';
+              if (focusPicker) {
+                focusPicker.setPosition(50, 50);
+              } else {
+                ensureFocusPicker();
+              }
               sync();
             } else {
               status.textContent = data.error || 'Upload fehlgeschlagen.';
@@ -422,7 +464,8 @@
           });
       });
 
-      wrapper.appendChild(preview);
+      wrapper.appendChild(focusContainer);
+      wrapper.appendChild(focusHint);
       wrapper.appendChild(fileInput);
       wrapper.appendChild(status);
       wrapper.appendChild(altInput);
@@ -495,9 +538,11 @@
         case 'quote':
           return '<blockquote class="block-quote"' + styleAttr + '>' + (block.content || '') + '</blockquote>';
         case 'image':
-          return block.src
-            ? '<img src="/uploads/' + escapeHtml(block.src) + '" alt="' + escapeHtml(block.alt || '') + '" class="block-image">'
-            : '';
+          if (!block.src) {
+            return '';
+          }
+          var focusStyle = '--block-focus-x:' + clampFocusPoint(block.focusX) + '%;--block-focus-y:' + clampFocusPoint(block.focusY) + '%;';
+          return '<img src="/uploads/' + escapeHtml(block.src) + '" alt="' + escapeHtml(block.alt || '') + '" class="block-image" style="' + focusStyle + '">';
         case 'list':
           return '<ul class="block-list"' + styleAttr + '>' + (block.items || []).map(function (item) {
             return '<li>' + escapeHtml(item) + '</li>';
