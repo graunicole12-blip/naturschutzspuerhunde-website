@@ -5,7 +5,7 @@ require __DIR__ . '/../includes/db.php';
 require __DIR__ . '/../includes/upload.php';
 require __DIR__ . '/../includes/news.php';
 require __DIR__ . '/../includes/sanitize-html.php';
-require __DIR__ . '/../includes/blocks.php';
+require __DIR__ . '/../includes/content.php';
 
 requireLogin();
 
@@ -163,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <span class="preview-badge" id="previewCategory"><?php echo htmlspecialchars(NEWS_CATEGORIES[$category] ?? ''); ?></span>
         <h2 id="previewTitle"><?php echo htmlspecialchars($title !== '' ? $title : 'Titel des Beitrags'); ?></h2>
         <p class="preview-date" id="previewDate"><?php echo htmlspecialchars($publishedAt); ?></p>
-        <p id="previewContent"><?php echo htmlspecialchars($content); ?></p>
+        <p id="previewContent"><?php echo renderRichText($content); ?></p>
       </div>
     </div>
   </div>
