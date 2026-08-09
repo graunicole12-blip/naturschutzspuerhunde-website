@@ -83,6 +83,12 @@ $activeDogs = getActiveDogs();
         <p><a href="/unsere-hunde.php">Alle Hunde kennenlernen &rarr;</a></p>
       <?php endif; ?>
     </section>
+
+    <section>
+      <h2>Ausbildung</h2>
+      <p>Qualitätsstandards, internationale Zusammenarbeit, Assessments und Weiterbildung &ndash; wie wir unsere Hundeteams professionell ausbilden und weiterentwickeln.</p>
+      <p><a href="/ausbildung.php">Mehr zur Ausbildung &rarr;</a></p>
+    </section>
   </main>
 
   <section class="cta-section">

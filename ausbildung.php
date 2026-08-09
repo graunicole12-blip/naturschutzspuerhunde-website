@@ -1,0 +1,49 @@
+<?php
+require __DIR__ . '/includes/content.php';
+
+$pageKey = 'ausbildung';
+$qualitaetText = getContentBlock($pageKey, 'qualitaetsstandards_text', 'Text folgt in Kürze.');
+$zusammenarbeitText = getContentBlock($pageKey, 'internationale_zusammenarbeit_text', 'Text folgt in Kürze.');
+$assessmentsText = getContentBlock($pageKey, 'assessments_text', 'Text folgt in Kürze.');
+$weiterbildungText = getContentBlock($pageKey, 'weiterbildung_text', 'Text folgt in Kürze.');
+?>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ausbildung &ndash; Naturschutzspürhunde Schweiz</title>
+  <link rel="stylesheet" href="/assets/css/variables.css">
+  <link rel="stylesheet" href="/assets/css/site.css">
+</head>
+<body>
+  <?php require __DIR__ . '/includes/header.php'; ?>
+
+  <main style="max-width:1100px;margin:0 auto;padding:24px;">
+    <h1>Ausbildung</h1>
+
+    <section>
+      <h2>Qualitätsstandards</h2>
+      <p><?php echo renderRichText($qualitaetText); ?></p>
+    </section>
+
+    <section>
+      <h2>Internationale Zusammenarbeit</h2>
+      <p><?php echo renderRichText($zusammenarbeitText); ?></p>
+    </section>
+
+    <section>
+      <h2>Assessments</h2>
+      <p><?php echo renderRichText($assessmentsText); ?></p>
+    </section>
+
+    <section>
+      <h2>Weiterbildung</h2>
+      <p><?php echo renderRichText($weiterbildungText); ?></p>
+      <p>Fragen zur Weiterbildung? <a href="/kontakt.php">Kontaktiere uns</a>.</p>
+    </section>
+  </main>
+
+  <?php require __DIR__ . '/includes/footer.php'; ?>
+</body>
+</html>
