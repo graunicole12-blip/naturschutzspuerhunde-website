@@ -11,7 +11,7 @@
         <li><a href="/ueber-uns.php">Über uns</a></li>
         <li><a href="#">Naturschutzspürhunde</a></li>
         <li><a href="/projekte.php">Projekte</a></li>
-        <li><a href="#">Unsere Hunde</a></li>
+        <li><a href="/unsere-hunde.php">Unsere Hunde</a></li>
         <li><a href="#">Ausbildung</a></li>
         <li><a href="#">Unterstützen</a></li>
         <li><a href="#">News &amp; Kontakt</a></li>
