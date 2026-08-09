@@ -95,6 +95,7 @@ $activeDogs = getActiveDogs();
     <h2>Unterstützen</h2>
     <p><?php echo renderRichText($ctaText); ?></p>
     <a class="cta-button" href="<?php echo htmlspecialchars($ctaLink); ?>" target="_blank" rel="noopener">Jetzt unterstützen</a>
+    <p style="margin-top:12px;"><a href="/unterstuetzen.php" style="color:var(--color-neutral-tan);">Alle Unterstützungswege ansehen &rarr;</a></p>
   </section>
 
   <main style="max-width:1100px;margin:0 auto;padding:24px;">

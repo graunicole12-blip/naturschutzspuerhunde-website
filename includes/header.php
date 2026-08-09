@@ -13,7 +13,7 @@
         <li><a href="/projekte.php">Projekte</a></li>
         <li><a href="/unsere-hunde.php">Unsere Hunde</a></li>
         <li><a href="/ausbildung.php">Ausbildung</a></li>
-        <li><a href="#">Unterstützen</a></li>
+        <li><a href="/unterstuetzen.php">Unterstützen</a></li>
         <li><a href="/news.php">News</a></li>
         <li><a href="/kontakt.php">Kontakt</a></li>
       </ul>
