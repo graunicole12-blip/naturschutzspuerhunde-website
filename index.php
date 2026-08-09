@@ -9,6 +9,7 @@ require __DIR__ . '/includes/dogs.php';
 $vision = getContentBlock('startseite', 'vision', 'Vision folgt in Kürze.');
 $nshText = getContentBlock('startseite', 'nsh_text', 'Naturschutzspürhunde sind speziell ausgebildete Hunde, die dank ihrer feinen Nase seltene, bedrohte oder invasive Arten aufspüren – schnell, zuverlässig und ohne die Natur zu stören. So unterstützen sie Naturschutzorganisationen dabei, wichtige Daten für den Schutz unserer Umwelt zu sammeln.');
 $heroImage = getContentBlock('startseite', 'hero_image', '');
+$ausbildungTeaserText = getContentBlock('startseite', 'ausbildung_teaser_text', 'Qualitätsstandards, internationale Zusammenarbeit, Assessments und Weiterbildung – wie wir unsere Hundeteams professionell ausbilden und weiterentwickeln.');
 $ctaText = getContentBlock('startseite', 'cta_text', 'Unterstütze unser Crowdfunding-Projekt auf Lokalhelden – werde jetzt Fan und hilf uns beim Start!');
 $ctaLink = getContentBlock('startseite', 'cta_link', 'https://www.lokalhelden.ch/naturschutzhunde');
 $featuredProjects = getFeaturedProjects();
@@ -87,7 +88,7 @@ $activeDogs = getActiveDogs();
 
     <section>
       <h2>Ausbildung</h2>
-      <p>Qualitätsstandards, internationale Zusammenarbeit, Assessments und Weiterbildung &ndash; wie wir unsere Hundeteams professionell ausbilden und weiterentwickeln.</p>
+      <div><?php echo renderRichText($ausbildungTeaserText); ?></div>
       <p><a href="/ausbildung.php">Mehr zur Ausbildung &rarr;</a></p>
     </section>
   </main>

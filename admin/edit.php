@@ -11,6 +11,7 @@ $pageKey = 'startseite';
 $textBlockKey = 'vision';
 $nshBlockKey = 'nsh_text';
 $imageBlockKey = 'hero_image';
+$ausbildungTeaserBlockKey = 'ausbildung_teaser_text';
 $ctaTextBlockKey = 'cta_text';
 $ctaLinkBlockKey = 'cta_link';
 $message = '';
@@ -29,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_image'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content = sanitizeHtml(trim($_POST['content'] ?? ''));
     $nshText = sanitizeHtml(trim($_POST['nsh_text'] ?? ''));
+    $ausbildungTeaserText = sanitizeHtml(trim($_POST['ausbildung_teaser_text'] ?? ''));
     $ctaText = sanitizeHtml(trim($_POST['cta_text'] ?? ''));
     $ctaLink = trim($_POST['cta_link'] ?? '');
     $stmt = getDb()->prepare(
@@ -37,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
     $stmt->execute([$pageKey, $textBlockKey, $content]);
     $stmt->execute([$pageKey, $nshBlockKey, $nshText]);
+    $stmt->execute([$pageKey, $ausbildungTeaserBlockKey, $ausbildungTeaserText]);
     $stmt->execute([$pageKey, $ctaTextBlockKey, $ctaText]);
     $stmt->execute([$pageKey, $ctaLinkBlockKey, $ctaLink]);
 
@@ -50,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = $error === '' ? 'Gespeichert.' : '';
 }
 
-$stmt = getDb()->prepare('SELECT block_key, content FROM content_blocks WHERE page_key = ? AND block_key IN (?, ?, ?, ?, ?)');
-$stmt->execute([$pageKey, $textBlockKey, $nshBlockKey, $imageBlockKey, $ctaTextBlockKey, $ctaLinkBlockKey]);
+$stmt = getDb()->prepare('SELECT block_key, content FROM content_blocks WHERE page_key = ? AND block_key IN (?, ?, ?, ?, ?, ?)');
+$stmt->execute([$pageKey, $textBlockKey, $nshBlockKey, $imageBlockKey, $ausbildungTeaserBlockKey, $ctaTextBlockKey, $ctaLinkBlockKey]);
 $blocks = [];
 foreach ($stmt->fetchAll() as $row) {
     $blocks[$row['block_key']] = $row['content'];
@@ -59,6 +62,7 @@ foreach ($stmt->fetchAll() as $row) {
 $currentText = $blocks[$textBlockKey] ?? '';
 $currentNshText = $blocks[$nshBlockKey] ?? '';
 $currentImage = $blocks[$imageBlockKey] ?? '';
+$currentAusbildungTeaserText = $blocks[$ausbildungTeaserBlockKey] ?? '';
 $currentCtaText = $blocks[$ctaTextBlockKey] ?? '';
 $currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
 ?>
@@ -130,6 +134,9 @@ $currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
           <button type="submit" name="delete_image" value="1" class="delete-image-btn" formnovalidate onclick="return confirm('Hero-Bild wirklich löschen?');">Bild löschen</button>
         <?php endif; ?>
 
+        <label for="ausbildung_teaser_text">Ausbildung &ndash; Kurztext (Startseiten-Teaser)</label>
+        <textarea id="ausbildung_teaser_text" name="ausbildung_teaser_text" placeholder="Kurztext f&uuml;r den Ausbildung-Teaser auf der Startseite..."><?php echo htmlspecialchars($currentAusbildungTeaserText); ?></textarea>
+
         <label for="cta_text">Unterst&uuml;tzen &ndash; Kurztext</label>
         <textarea id="cta_text" name="cta_text" placeholder="Kurztext f&uuml;r die Unterst&uuml;tzen-Sektion..."><?php echo htmlspecialchars($currentCtaText); ?></textarea>
 
@@ -148,6 +155,8 @@ $currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
         <p id="previewText"><?php echo htmlspecialchars($currentText); ?></p>
         <h2>Was sind Naturschutzsp&uuml;rhunde?</h2>
         <p id="previewNshText"><?php echo htmlspecialchars($currentNshText); ?></p>
+        <h2>Ausbildung</h2>
+        <p id="previewAusbildungTeaserText"><?php echo htmlspecialchars($currentAusbildungTeaserText); ?></p>
         <h2>Unterst&uuml;tzen</h2>
         <p id="previewCtaText"><?php echo htmlspecialchars($currentCtaText); ?></p>
         <a id="previewCtaButton" class="cta-button" href="<?php echo htmlspecialchars($currentCtaLink); ?>" target="_blank" rel="noopener">Jetzt unterst&uuml;tzen</a>
@@ -162,6 +171,9 @@ $currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
     });
     document.getElementById('nsh_text').addEventListener('input', function (e) {
       document.getElementById('previewNshText').innerHTML = renderBlocksToHtml(e.target.value);
+    });
+    document.getElementById('ausbildung_teaser_text').addEventListener('input', function (e) {
+      document.getElementById('previewAusbildungTeaserText').innerHTML = renderBlocksToHtml(e.target.value);
     });
     document.getElementById('cta_text').addEventListener('input', function (e) {
       document.getElementById('previewCtaText').innerHTML = renderBlocksToHtml(e.target.value);
@@ -181,6 +193,7 @@ $currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
 
     initBlockEditor('content');
     initBlockEditor('nsh_text');
+    initBlockEditor('ausbildung_teaser_text');
     initBlockEditor('cta_text');
   </script>
 </body>
