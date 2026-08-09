@@ -3,7 +3,7 @@
 require_once __DIR__ . '/sanitize-html.php';
 
 const BLOCK_TYPES = ['paragraph', 'heading', 'quote', 'image', 'list'];
-const BLOCK_IMAGE_FILENAME_PATTERN = '/^[A-Za-z0-9._-]+\.(jpe?g|png|webp|gif)$/i';
+const BLOCK_IMAGE_FILENAME_PATTERN = '/^[A-Za-z0-9._-]+\.(jpe?g|png|webp)$/i';
 
 function sanitizeBlocks(array $blocks): array
 {
