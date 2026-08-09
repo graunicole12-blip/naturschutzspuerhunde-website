@@ -77,19 +77,19 @@ function renderBlockList(array $blocks): string
     foreach (sanitizeBlocks($blocks) as $block) {
         switch ($block['type']) {
             case 'paragraph':
-                $html .= '<p>' . $block['content'] . '</p>';
+                $html .= '<p class="block-paragraph">' . $block['content'] . '</p>';
                 break;
             case 'heading':
-                $html .= '<h3>' . htmlspecialchars($block['content']) . '</h3>';
+                $html .= '<h3 class="block-heading">' . htmlspecialchars($block['content']) . '</h3>';
                 break;
             case 'quote':
-                $html .= '<blockquote>' . $block['content'] . '</blockquote>';
+                $html .= '<blockquote class="block-quote">' . $block['content'] . '</blockquote>';
                 break;
             case 'image':
                 $html .= '<img src="/uploads/' . htmlspecialchars($block['src']) . '" alt="' . htmlspecialchars($block['alt']) . '" class="block-image">';
                 break;
             case 'list':
-                $html .= '<ul>';
+                $html .= '<ul class="block-list">';
                 foreach ($block['items'] as $item) {
                     $html .= '<li>' . htmlspecialchars($item) . '</li>';
                 }

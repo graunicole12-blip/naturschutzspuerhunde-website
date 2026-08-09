@@ -127,6 +127,39 @@ a {
   font-size: 14px;
 }
 
+.block-heading {
+  font-family: var(--font-text);
+  font-weight: var(--font-weight-text);
+  font-size: var(--font-size-zwischenueberschrift);
+  margin: 20px 0 8px;
+}
+
+.block-quote {
+  font-family: var(--font-text);
+  font-style: var(--font-style-zitat);
+  font-size: var(--font-size-zitat);
+  color: var(--color-secondary-khaki);
+  border-left: 3px solid var(--color-secondary-gold);
+  padding-left: 16px;
+  margin: 16px 0;
+}
+
+.block-image {
+  max-width: 100%;
+  border-radius: 8px;
+  display: block;
+  margin: 16px 0;
+}
+
+.block-list {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.block-paragraph {
+  margin: 0 0 12px;
+}
+
 .text-upper {
   text-transform: uppercase;
 }
