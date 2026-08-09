@@ -79,7 +79,12 @@ function clampFocusPoint(?string $raw, float $default = 50.0): float
 
 function focusPointObjectPositionStyle(float $focusX, float $focusY): string
 {
-    return 'object-position:' . $focusX . '% ' . $focusY . '%;';
+    return 'object-position:' . formatFocusPoint($focusX) . '% ' . formatFocusPoint($focusY) . '%;';
+}
+
+function formatFocusPoint(float $value): string
+{
+    return number_format($value, 2, '.', '');
 }
 
 function renderPlainText(?string $raw): string
