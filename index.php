@@ -9,6 +9,7 @@ require __DIR__ . '/includes/dogs.php';
 $vision = getContentBlock('startseite', 'vision');
 $nshText = getContentBlock('startseite', 'nsh_text');
 $heroImage = getContentBlock('startseite', 'hero_image', '');
+$heroImageMaxHeight = clampCardLimit(getContentBlock('startseite', 'hero_image_max_height', ''), 480, 100, 1200);
 $ausbildungTeaserText = getContentBlock('startseite', 'ausbildung_teaser_text', 'Qualitätsstandards, internationale Zusammenarbeit, Assessments und Weiterbildung – wie wir unsere Hundeteams professionell ausbilden und weiterentwickeln.');
 $ctaText = getContentBlock('startseite', 'cta_text', 'Unterstütze unser Crowdfunding-Projekt auf Lokalhelden – werde jetzt Fan und hilf uns beim Start!');
 $ctaLink = getContentBlock('startseite', 'cta_link', 'https://www.lokalhelden.ch/naturschutzhunde');
@@ -33,7 +34,7 @@ $activeDogs = getActiveDogs($hundeAnzahl);
 
   <main style="max-width:1100px;margin:0 auto;padding:24px;">
     <?php if ($heroImage !== ''): ?>
-      <img src="/uploads/<?php echo htmlspecialchars($heroImage); ?>" alt="" style="max-width:100%;border-radius:8px;display:block;margin-bottom:24px;">
+      <img src="/uploads/<?php echo htmlspecialchars($heroImage); ?>" alt="" style="max-width:100%;max-height:<?php echo (int) $heroImageMaxHeight; ?>px;border-radius:8px;display:block;margin-bottom:24px;">
     <?php endif; ?>
 
     <section>
