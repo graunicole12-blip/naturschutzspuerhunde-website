@@ -145,7 +145,10 @@ a {
 }
 
 .block-image {
-  max-width: 100%;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: var(--block-focus-x, 50%) var(--block-focus-y, 50%);
   border-radius: 8px;
   display: block;
   margin: 16px 0;
