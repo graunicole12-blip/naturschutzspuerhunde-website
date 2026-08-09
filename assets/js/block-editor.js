@@ -455,6 +455,17 @@
     return div.innerHTML;
   }
 
+  function blockPreviewStyleAttr(block) {
+    var style = '';
+    if (block.color && BLOCK_COLOR_OPTIONS[block.color]) {
+      style += 'color:var(--color-' + block.color + ');';
+    }
+    if (block.fontSize && BLOCK_FONT_SIZE_OPTIONS[block.fontSize]) {
+      style += 'font-size:var(--font-size-' + block.fontSize + ');';
+    }
+    return style !== '' ? ' style="' + style + '"' : '';
+  }
+
   // Client-side preview rendering only (mirrors includes/blocks.php's
   // renderBlockList() for admin live-preview panels). The authoritative,
   // security-relevant sanitization always happens server-side on save/render.
@@ -477,21 +488,22 @@
     }
 
     return blocks.map(function (block) {
+      var styleAttr = blockPreviewStyleAttr(block);
       switch (block.type) {
         case 'heading':
-          return '<h3 class="block-heading">' + escapeHtml(block.content || '') + '</h3>';
+          return '<h3 class="block-heading"' + styleAttr + '>' + escapeHtml(block.content || '') + '</h3>';
         case 'quote':
-          return '<blockquote class="block-quote">' + (block.content || '') + '</blockquote>';
+          return '<blockquote class="block-quote"' + styleAttr + '>' + (block.content || '') + '</blockquote>';
         case 'image':
           return block.src
             ? '<img src="/uploads/' + escapeHtml(block.src) + '" alt="' + escapeHtml(block.alt || '') + '" class="block-image">'
             : '';
         case 'list':
-          return '<ul class="block-list">' + (block.items || []).map(function (item) {
+          return '<ul class="block-list"' + styleAttr + '>' + (block.items || []).map(function (item) {
             return '<li>' + escapeHtml(item) + '</li>';
           }).join('') + '</ul>';
         default:
-          return '<p class="block-paragraph">' + (block.content || '') + '</p>';
+          return '<p class="block-paragraph"' + styleAttr + '>' + (block.content || '') + '</p>';
       }
     }).join('');
   };
