@@ -3,6 +3,8 @@ $maintenanceText = getSetting(
     'maintenance_text',
     'Wir bauen gerade an unserer neuen Webseite. Bitte schau in Kürze wieder vorbei!'
 );
+$maintenanceLogo = getSetting('logo', '');
+$maintenanceLogoSrc = $maintenanceLogo !== '' ? '/uploads/' . $maintenanceLogo : '/assets/img/logo.png';
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -22,7 +24,7 @@ $maintenanceText = getSetting(
 </head>
 <body>
   <div class="card">
-    <img src="/assets/img/logo.png" alt="Vereinslogo" class="logo">
+    <img src="<?php echo htmlspecialchars($maintenanceLogoSrc); ?>" alt="Vereinslogo" class="logo">
     <h1>Wir sind kurz nicht da</h1>
     <p class="subtitle">Naturschutzsp&uuml;rhunde Schweiz</p>
     <p class="message"><?php echo nl2br(htmlspecialchars($maintenanceText)); ?></p>

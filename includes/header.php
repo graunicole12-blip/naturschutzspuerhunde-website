@@ -1,7 +1,12 @@
+<?php
+require_once __DIR__ . '/settings.php';
+$headerLogo = getSetting('logo', '');
+$headerLogoSrc = $headerLogo !== '' ? '/uploads/' . $headerLogo : '/assets/img/logo.png';
+?>
 <header class="site-header">
   <div class="site-header-inner">
     <a class="site-logo" href="/index.php">
-      <img src="/assets/img/logo.png" alt="Vereinslogo">
+      <img src="<?php echo htmlspecialchars($headerLogoSrc); ?>" alt="Vereinslogo">
       <span>Naturschutzspürhunde</span>
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false">&#9776;</button>

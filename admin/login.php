@@ -2,8 +2,12 @@
 
 require __DIR__ . '/includes/session.php';
 require __DIR__ . '/../includes/db.php';
+require __DIR__ . '/../includes/settings.php';
 
 startSecureSession();
+
+$loginLogo = getSetting('logo', '');
+$loginLogoSrc = $loginLogo !== '' ? '../uploads/' . $loginLogo : '../assets/img/logo.png';
 
 if (!empty($_SESSION['admin_id'])) {
     header('Location: /admin/index.php');
@@ -51,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
   <div class="card">
-    <img src="../assets/img/logo.png" alt="Vereinslogo" class="logo">
+    <img src="<?php echo htmlspecialchars($loginLogoSrc); ?>" alt="Vereinslogo" class="logo">
     <h1>Admin-Login</h1>
     <p class="subtitle">Naturschutzsp&uuml;rhunde Schweiz</p>
     <?php if ($error !== ''): ?>

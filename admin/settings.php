@@ -2,8 +2,17 @@
 
 require __DIR__ . '/includes/auth.php';
 require __DIR__ . '/../includes/settings.php';
+require __DIR__ . '/../includes/upload.php';
 
 requireLogin();
+
+$logoError = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_logo'])) {
+    setSetting('logo', '');
+    header('Location: /admin/settings.php');
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
@@ -15,14 +24,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         setSetting('link_color', sanitizeHexColor($_POST['link_color'] ?? null, '#b82020'));
         setSetting('link_underline', isset($_POST['link_underline']) ? '1' : '0');
         setSetting('link_hover_color', sanitizeHexColor($_POST['link_hover_color'] ?? null, '#a33122'));
+    } elseif ($action === 'save_logo') {
+        $uploadResult = handleImageUpload($_FILES['logo'] ?? [], __DIR__ . '/../uploads');
+        if ($uploadResult['error'] !== null) {
+            $logoError = $uploadResult['error'];
+        } elseif ($uploadResult['success']) {
+            setSetting('logo', $uploadResult['filename']);
+        }
     } elseif ($action === 'generate_preview') {
         setSetting('maintenance_preview_token', bin2hex(random_bytes(16)));
     } elseif ($action === 'revoke_preview') {
         setSetting('maintenance_preview_token', '');
     }
 
-    header('Location: /admin/settings.php');
-    exit;
+    if ($logoError === '') {
+        header('Location: /admin/settings.php');
+        exit;
+    }
 }
 
 $maintenanceMode = getSetting('maintenance_mode', '0') === '1';
@@ -32,6 +50,8 @@ $previewToken = getSetting('maintenance_preview_token', '');
 $linkColor = sanitizeHexColor(getSetting('link_color', ''), '#b82020');
 $linkUnderline = getSetting('link_underline', '1') === '1';
 $linkHoverColor = sanitizeHexColor(getSetting('link_hover_color', ''), '#a33122');
+
+$logo = getSetting('logo', '');
 
 $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
 $previewUrl = $previewToken !== ''
@@ -63,6 +83,9 @@ $previewUrl = $previewToken !== ''
     .hint { font-size: 12px; color: var(--color-secondary-khaki); margin: 4px 0 0; }
     .preview-link { font-size: 13px; word-break: break-all; background: var(--color-neutral-cream); border-radius: 6px; padding: 8px; margin: 8px 0 0; }
     .preview-empty { font-size: 13px; color: var(--color-secondary-khaki); margin: 8px 0 0; }
+    .error { color: var(--color-accent-red); font-size: 13px; }
+    .current-logo { width: 72px; height: 72px; border-radius: 50%; display: block; margin-top: 8px; object-fit: cover; }
+    .delete-logo-btn { background: var(--color-secondary-gold); margin-top: 8px; margin-left: 8px; height: 30px; padding: 0 14px; font-size: 13px; }
   </style>
 </head>
 <body>
@@ -107,6 +130,25 @@ $previewUrl = $previewToken !== ''
         <button type="submit" class="secondary">Link widerrufen</button>
       </form>
     <?php endif; ?>
+  </div>
+
+  <div class="panel">
+    <h1>Vereinslogo</h1>
+    <p class="hint">Gilt f&uuml;r Header, Login-Seite und Wartungsseite. Ohne eigenes Logo wird das Standard-Logo verwendet.</p>
+    <?php if ($logoError !== ''): ?>
+      <p class="error"><?php echo htmlspecialchars($logoError); ?></p>
+    <?php endif; ?>
+    <img class="current-logo" src="<?php echo $logo !== '' ? '/uploads/' . htmlspecialchars($logo) : '/assets/img/logo.png'; ?>" alt="Aktuelles Logo">
+    <form method="post" enctype="multipart/form-data">
+      <input type="hidden" name="action" value="save_logo">
+      <label for="logo">Neues Logo hochladen</label>
+      <input type="file" id="logo" name="logo" accept="image/jpeg,image/png,image/webp">
+      <p class="hint">JPEG, PNG oder WebP, max. 5 MB.</p>
+      <button type="submit">Speichern</button>
+      <?php if ($logo !== ''): ?>
+        <button type="submit" name="delete_logo" value="1" formnovalidate class="delete-logo-btn" onclick="return confirm('Zum Standard-Logo zurücksetzen?');">Standard-Logo wiederherstellen</button>
+      <?php endif; ?>
+    </form>
   </div>
 
   <div class="panel">
