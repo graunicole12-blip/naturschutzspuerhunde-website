@@ -1,0 +1,132 @@
+.block-editor {
+  border: 1px solid var(--color-neutral-blue);
+  border-radius: 6px;
+  padding: 8px;
+  background: #fff;
+}
+
+.block-editor-inserter {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 4px 0;
+}
+
+.block-editor-insert-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  z-index: 5;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--color-neutral-blue);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.block-editor-insert-menu.open {
+  display: flex;
+}
+
+.block-editor-insert-option {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-family: var(--font-text);
+  color: var(--color-primary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.block-editor-insert-option:hover {
+  background: var(--color-neutral-cream);
+}
+
+.block-editor-block {
+  border: 1px solid var(--color-neutral-blue-light, var(--color-neutral-blue));
+  border-radius: 6px;
+  padding: 8px;
+  margin: 4px 0;
+}
+
+.block-editor-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.block-editor-badge {
+  display: inline-block;
+  background: var(--color-neutral-tan);
+  color: var(--color-primary);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.block-editor-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.block-editor-icon-btn {
+  background: var(--color-neutral-cream);
+  border: 1px solid var(--color-neutral-blue);
+  border-radius: 4px;
+  padding: 3px 9px;
+  font-size: 13px;
+  font-family: var(--font-text);
+  color: var(--color-primary);
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.block-editor-icon-btn:hover {
+  background: var(--color-neutral-tan);
+}
+
+.block-editor-mini-toolbar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.block-editor-field {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 60px;
+  border: 1px solid var(--color-neutral-blue);
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 14px;
+  font-family: var(--font-text);
+  color: var(--color-primary);
+}
+
+.block-editor-field:focus {
+  outline: 2px solid var(--color-secondary-gold);
+  outline-offset: -1px;
+}
+
+input.block-editor-field {
+  min-height: unset;
+}
+
+.block-editor-heading-field {
+  font-family: var(--font-titel);
+  font-weight: var(--font-weight-titel);
+  font-size: 16px;
+}
+
+.block-editor-quote {
+  font-style: italic;
+  border-left: 3px solid var(--color-secondary-gold);
+}
+
+.block-editor-list-field textarea.block-editor-field {
+  min-height: 80px;
+}
