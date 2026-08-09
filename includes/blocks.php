@@ -176,25 +176,38 @@ function blockListToPlainText(array $blocks): string
     return implode(' ', $parts);
 }
 
+function blockInlineStyleAttr(array $block): string
+{
+    $style = '';
+    if (isset($block['color'])) {
+        $style .= 'color:var(--color-' . $block['color'] . ');';
+    }
+    if (isset($block['fontSize'])) {
+        $style .= 'font-size:var(--font-size-' . $block['fontSize'] . ');';
+    }
+    return $style !== '' ? ' style="' . $style . '"' : '';
+}
+
 function renderBlockList(array $blocks): string
 {
     $html = '';
     foreach (sanitizeBlocks($blocks) as $block) {
+        $styleAttr = blockInlineStyleAttr($block);
         switch ($block['type']) {
             case 'paragraph':
-                $html .= '<p class="block-paragraph">' . $block['content'] . '</p>';
+                $html .= '<p class="block-paragraph"' . $styleAttr . '>' . $block['content'] . '</p>';
                 break;
             case 'heading':
-                $html .= '<h3 class="block-heading">' . htmlspecialchars($block['content']) . '</h3>';
+                $html .= '<h3 class="block-heading"' . $styleAttr . '>' . htmlspecialchars($block['content']) . '</h3>';
                 break;
             case 'quote':
-                $html .= '<blockquote class="block-quote">' . $block['content'] . '</blockquote>';
+                $html .= '<blockquote class="block-quote"' . $styleAttr . '>' . $block['content'] . '</blockquote>';
                 break;
             case 'image':
                 $html .= '<img src="/uploads/' . htmlspecialchars($block['src']) . '" alt="' . htmlspecialchars($block['alt']) . '" class="block-image">';
                 break;
             case 'list':
-                $html .= '<ul class="block-list">';
+                $html .= '<ul class="block-list"' . $styleAttr . '>';
                 foreach ($block['items'] as $item) {
                     $html .= '<li>' . htmlspecialchars($item) . '</li>';
                 }
