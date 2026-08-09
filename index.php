@@ -12,9 +12,12 @@ $heroImage = getContentBlock('startseite', 'hero_image', '');
 $ausbildungTeaserText = getContentBlock('startseite', 'ausbildung_teaser_text', 'Qualitätsstandards, internationale Zusammenarbeit, Assessments und Weiterbildung – wie wir unsere Hundeteams professionell ausbilden und weiterentwickeln.');
 $ctaText = getContentBlock('startseite', 'cta_text', 'Unterstütze unser Crowdfunding-Projekt auf Lokalhelden – werde jetzt Fan und hilf uns beim Start!');
 $ctaLink = getContentBlock('startseite', 'cta_link', 'https://www.lokalhelden.ch/naturschutzhunde');
-$featuredProjects = getFeaturedProjects();
-$latestNews = getLatestNews();
-$activeDogs = getActiveDogs();
+$projekteAnzahl = clampCardLimit(getContentBlock('startseite', 'projekte_anzahl', ''));
+$hundeAnzahl = clampCardLimit(getContentBlock('startseite', 'hunde_anzahl', ''));
+$newsAnzahl = clampCardLimit(getContentBlock('startseite', 'news_anzahl', ''));
+$featuredProjects = getFeaturedProjects($projekteAnzahl);
+$latestNews = getLatestNews($newsAnzahl);
+$activeDogs = getActiveDogs($hundeAnzahl);
 ?>
 <!DOCTYPE html>
 <html lang="de">
