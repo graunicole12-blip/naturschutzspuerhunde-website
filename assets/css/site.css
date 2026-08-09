@@ -166,31 +166,53 @@ a {
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-top: 16px;
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.contact-form-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.contact-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 220px;
 }
 
 .contact-form label {
-  font-size: 13px;
-  color: var(--color-secondary-khaki);
-  margin-top: 12px;
+  font-family: var(--font-titel);
+  font-weight: var(--font-weight-titel);
+  font-size: 15px;
+  color: var(--color-primary);
 }
 
 .contact-form input,
-.contact-form select,
 .contact-form textarea {
   font-family: var(--font-text);
   font-size: 14px;
-  padding: 8px;
-  border: 1px solid var(--color-neutral-tan);
-  border-radius: 6px;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 10px;
+  background: var(--color-neutral-cream);
+  color: var(--color-primary);
+}
+
+.contact-form textarea {
+  resize: vertical;
 }
 
 .contact-form button {
   border: none;
   cursor: pointer;
-  margin-top: 16px;
+  margin-top: 4px;
   align-self: flex-start;
+  border-radius: 30px;
+  padding: 14px 32px;
 }
 
 .contact-honeypot {
