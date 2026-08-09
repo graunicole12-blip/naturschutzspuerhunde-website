@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['forschung_text'])) {
         'INSERT INTO content_blocks (page_key, block_key, content) VALUES (?, ?, ?)
          ON DUPLICATE KEY UPDATE content = VALUES(content)'
     );
-    $stmt->execute(['projekte', 'forschung_text', sanitizeHtml(trim($_POST['forschung_text']))]);
+    $stmt->execute(['projekte', 'forschung_text', sanitizeBlockFieldInput(trim($_POST['forschung_text']))]);
     header('Location: /admin/projects.php');
     exit;
 }

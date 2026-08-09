@@ -15,10 +15,10 @@ $warumHundeKey = 'warum_hunde_text';
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $wasSindText = sanitizeHtml(trim($_POST['was_sind_text'] ?? ''));
-    $wieArbeitenText = sanitizeHtml(trim($_POST['wie_arbeiten_text'] ?? ''));
-    $einsatzText = sanitizeHtml(trim($_POST['einsatzmoeglichkeiten_text'] ?? ''));
-    $warumHundeText = sanitizeHtml(trim($_POST['warum_hunde_text'] ?? ''));
+    $wasSindText = sanitizeBlockFieldInput(trim($_POST['was_sind_text'] ?? ''));
+    $wieArbeitenText = sanitizeBlockFieldInput(trim($_POST['wie_arbeiten_text'] ?? ''));
+    $einsatzText = sanitizeBlockFieldInput(trim($_POST['einsatzmoeglichkeiten_text'] ?? ''));
+    $warumHundeText = sanitizeBlockFieldInput(trim($_POST['warum_hunde_text'] ?? ''));
 
     $stmt = getDb()->prepare(
         'INSERT INTO content_blocks (page_key, block_key, content) VALUES (?, ?, ?)

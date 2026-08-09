@@ -18,8 +18,8 @@ $message = '';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verein_text'])) {
-    $vereinText = sanitizeHtml(trim($_POST['verein_text']));
-    $visionMissionText = sanitizeHtml(trim($_POST['vision_mission_text'] ?? ''));
+    $vereinText = sanitizeBlockFieldInput(trim($_POST['verein_text']));
+    $visionMissionText = sanitizeBlockFieldInput(trim($_POST['vision_mission_text'] ?? ''));
 
     $stmt = getDb()->prepare(
         'INSERT INTO content_blocks (page_key, block_key, content) VALUES (?, ?, ?)

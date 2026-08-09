@@ -32,10 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_image'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $content = sanitizeHtml(trim($_POST['content'] ?? ''));
-    $nshText = sanitizeHtml(trim($_POST['nsh_text'] ?? ''));
-    $ausbildungTeaserText = sanitizeHtml(trim($_POST['ausbildung_teaser_text'] ?? ''));
-    $ctaText = sanitizeHtml(trim($_POST['cta_text'] ?? ''));
+    $content = sanitizeBlockFieldInput(trim($_POST['content'] ?? ''));
+    $nshText = sanitizeBlockFieldInput(trim($_POST['nsh_text'] ?? ''));
+    $ausbildungTeaserText = sanitizeBlockFieldInput(trim($_POST['ausbildung_teaser_text'] ?? ''));
+    $ctaText = sanitizeBlockFieldInput(trim($_POST['cta_text'] ?? ''));
     $ctaLink = trim($_POST['cta_link'] ?? '');
     $projekteAnzahl = clampCardLimit($_POST['projekte_anzahl'] ?? null);
     $hundeAnzahl = clampCardLimit($_POST['hunde_anzahl'] ?? null);

@@ -15,10 +15,10 @@ $weiterbildungKey = 'weiterbildung_text';
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $qualitaetText = sanitizeHtml(trim($_POST['qualitaetsstandards_text'] ?? ''));
-    $zusammenarbeitText = sanitizeHtml(trim($_POST['internationale_zusammenarbeit_text'] ?? ''));
-    $assessmentsText = sanitizeHtml(trim($_POST['assessments_text'] ?? ''));
-    $weiterbildungText = sanitizeHtml(trim($_POST['weiterbildung_text'] ?? ''));
+    $qualitaetText = sanitizeBlockFieldInput(trim($_POST['qualitaetsstandards_text'] ?? ''));
+    $zusammenarbeitText = sanitizeBlockFieldInput(trim($_POST['internationale_zusammenarbeit_text'] ?? ''));
+    $assessmentsText = sanitizeBlockFieldInput(trim($_POST['assessments_text'] ?? ''));
+    $weiterbildungText = sanitizeBlockFieldInput(trim($_POST['weiterbildung_text'] ?? ''));
 
     $stmt = getDb()->prepare(
         'INSERT INTO content_blocks (page_key, block_key, content) VALUES (?, ?, ?)
