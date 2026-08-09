@@ -4,6 +4,7 @@ require __DIR__ . '/includes/auth.php';
 require __DIR__ . '/../includes/db.php';
 require __DIR__ . '/../includes/upload.php';
 require __DIR__ . '/../includes/sanitize-html.php';
+require __DIR__ . '/../includes/blocks.php';
 
 requireLogin();
 
@@ -41,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_image']) && $i
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
     $role = trim($_POST['role'] ?? '');
-    $bio = sanitizeHtml(trim($_POST['bio'] ?? ''));
+    $bio = sanitizeBlockFieldInput(trim($_POST['bio'] ?? ''));
     $sortOrder = (int) ($_POST['sort_order'] ?? 0);
 
     if ($name === '') {

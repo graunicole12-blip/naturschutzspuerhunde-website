@@ -15,10 +15,10 @@ $crowdfundingKey = 'crowdfunding_text';
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $spendenText = sanitizeHtml(trim($_POST['spenden_text'] ?? ''));
-    $mitgliedText = sanitizeHtml(trim($_POST['mitglied_text'] ?? ''));
-    $sponsoringText = sanitizeHtml(trim($_POST['sponsoring_text'] ?? ''));
-    $crowdfundingText = sanitizeHtml(trim($_POST['crowdfunding_text'] ?? ''));
+    $spendenText = sanitizeBlockFieldInput(trim($_POST['spenden_text'] ?? ''));
+    $mitgliedText = sanitizeBlockFieldInput(trim($_POST['mitglied_text'] ?? ''));
+    $sponsoringText = sanitizeBlockFieldInput(trim($_POST['sponsoring_text'] ?? ''));
+    $crowdfundingText = sanitizeBlockFieldInput(trim($_POST['crowdfunding_text'] ?? ''));
 
     $stmt = getDb()->prepare(
         'INSERT INTO content_blocks (page_key, block_key, content) VALUES (?, ?, ?)

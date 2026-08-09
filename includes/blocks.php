@@ -61,6 +61,22 @@ function blocksToJson(array $blocks): string
     return json_encode(sanitizeBlocks($blocks), JSON_UNESCAPED_UNICODE);
 }
 
+function sanitizeBlockFieldInput(string $raw): string
+{
+    $raw = trim($raw);
+    if ($raw === '') {
+        return '';
+    }
+
+    if (isBlockJson($raw)) {
+        return blocksToJson(json_decode($raw, true));
+    }
+
+    // Not block-JSON (e.g. submitted without JS) - fall back to the legacy
+    // plain-HTML sanitizer instead of storing an unsanitized raw string.
+    return sanitizeHtml($raw);
+}
+
 function isBlockJson(string $raw): bool
 {
     $trimmed = trim($raw);

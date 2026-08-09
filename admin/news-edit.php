@@ -5,6 +5,7 @@ require __DIR__ . '/../includes/db.php';
 require __DIR__ . '/../includes/upload.php';
 require __DIR__ . '/../includes/news.php';
 require __DIR__ . '/../includes/sanitize-html.php';
+require __DIR__ . '/../includes/blocks.php';
 
 requireLogin();
 
@@ -43,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title'] ?? '');
     $category = $_POST['category'] ?? '';
     $publishedAt = $_POST['published_at'] ?? '';
-    $content = sanitizeHtml(trim($_POST['content'] ?? ''));
+    $content = sanitizeBlockFieldInput(trim($_POST['content'] ?? ''));
 
     if ($title === '') {
         $error = 'Titel darf nicht leer sein.';
