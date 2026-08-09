@@ -18,3 +18,9 @@ function setSetting(string $key, string $value): void
     );
     $stmt->execute([$key, $value]);
 }
+
+function sanitizeHexColor(?string $raw, string $default): string
+{
+    $raw = trim($raw ?? '');
+    return preg_match('/^#[0-9a-fA-F]{6}$/', $raw) ? $raw : $default;
+}
