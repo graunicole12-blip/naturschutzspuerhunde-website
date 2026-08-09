@@ -9,7 +9,7 @@
       <ul>
         <li><a href="/index.php">Startseite</a></li>
         <li><a href="/ueber-uns.php">Über uns</a></li>
-        <li><a href="#">Naturschutzspürhunde</a></li>
+        <li><a href="/naturschutzspuerhunde.php">Naturschutzspürhunde</a></li>
         <li><a href="/projekte.php">Projekte</a></li>
         <li><a href="/unsere-hunde.php">Unsere Hunde</a></li>
         <li><a href="/ausbildung.php">Ausbildung</a></li>
