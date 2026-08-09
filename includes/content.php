@@ -26,3 +26,17 @@ function renderRichText(?string $raw): string
     // Legacy format: plain sanitized HTML string, from before the block editor.
     return nl2br(sanitizeHtml($raw));
 }
+
+function renderPlainText(?string $raw): string
+{
+    $raw = $raw ?? '';
+    if ($raw === '') {
+        return '';
+    }
+
+    if (isBlockJson($raw)) {
+        return blockListToPlainText(json_decode($raw, true));
+    }
+
+    return trim(strip_tags($raw));
+}

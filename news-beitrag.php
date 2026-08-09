@@ -33,7 +33,7 @@ if ($item === null) {
       <span class="teaser-badge"><?php echo htmlspecialchars(NEWS_CATEGORIES[$item['category']] ?? $item['category']); ?></span>
       <h1><?php echo htmlspecialchars($item['title']); ?></h1>
       <p><em><?php echo htmlspecialchars(date('d.m.Y', strtotime($item['published_at']))); ?></em></p>
-      <p><?php echo renderRichText($item['content'] ?? ''); ?></p>
+      <div><?php echo renderRichText($item['content'] ?? ''); ?></div>
     <?php endif; ?>
   </main>
 

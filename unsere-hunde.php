@@ -45,10 +45,10 @@ foreach ($dogs as $dog) {
                 <p><em><?php echo htmlspecialchars($dog['einsatzgebiet']); ?></em></p>
               <?php endif; ?>
               <?php if (!empty($dog['charakter'])): ?>
-                <p><?php echo renderRichText($dog['charakter']); ?></p>
+                <div><?php echo renderRichText($dog['charakter']); ?></div>
               <?php endif; ?>
               <?php if (!empty($dog['bio'])): ?>
-                <p><?php echo renderRichText($dog['bio']); ?></p>
+                <div><?php echo renderRichText($dog['bio']); ?></div>
               <?php endif; ?>
             </div>
           <?php endforeach; ?>
@@ -71,10 +71,10 @@ foreach ($dogs as $dog) {
                 <p><em><?php echo htmlspecialchars($dog['einsatzgebiet']); ?></em></p>
               <?php endif; ?>
               <?php if (!empty($dog['charakter'])): ?>
-                <p><?php echo renderRichText($dog['charakter']); ?></p>
+                <div><?php echo renderRichText($dog['charakter']); ?></div>
               <?php endif; ?>
               <?php if (!empty($dog['bio'])): ?>
-                <p><?php echo renderRichText($dog['bio']); ?></p>
+                <div><?php echo renderRichText($dog['bio']); ?></div>
               <?php endif; ?>
             </div>
           <?php endforeach; ?>

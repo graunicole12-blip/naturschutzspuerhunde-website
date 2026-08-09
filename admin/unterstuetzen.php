@@ -44,7 +44,7 @@ $crowdfundingText = getContentBlock($pageKey, $crowdfundingKey, '');
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Unterstützen &ndash; Naturschutzsp&uuml;rhunde Admin</title>
   <link rel="stylesheet" href="../assets/css/variables.css">
-  <link rel="stylesheet" href="../assets/css/wysiwyg.css">
+  <link rel="stylesheet" href="../assets/css/block-editor.css">
   <style>
     body { font-family: var(--font-text); margin: 0; background: var(--color-neutral-cream); }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; }
@@ -91,12 +91,12 @@ $crowdfundingText = getContentBlock($pageKey, $crowdfundingKey, '');
     </form>
   </div>
 
-  <script src="../assets/js/wysiwyg.js"></script>
+  <script src="../assets/js/block-editor.js"></script>
   <script>
-    initWysiwyg('spenden_text');
-    initWysiwyg('mitglied_text');
-    initWysiwyg('sponsoring_text');
-    initWysiwyg('crowdfunding_text');
+    initBlockEditor('spenden_text');
+    initBlockEditor('mitglied_text');
+    initBlockEditor('sponsoring_text');
+    initBlockEditor('crowdfunding_text');
   </script>
 </body>
 </html>

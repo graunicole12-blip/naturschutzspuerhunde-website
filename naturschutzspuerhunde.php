@@ -24,23 +24,23 @@ $warumHundeText = getContentBlock($pageKey, 'warum_hunde_text', 'Text folgt in K
 
     <section>
       <h2>Was sind Naturschutzspürhunde?</h2>
-      <p><?php echo renderRichText($wasSindText); ?></p>
+      <div><?php echo renderRichText($wasSindText); ?></div>
     </section>
 
     <section>
       <h2>Wie arbeiten sie?</h2>
-      <p><?php echo renderRichText($wieArbeitenText); ?></p>
+      <div><?php echo renderRichText($wieArbeitenText); ?></div>
     </section>
 
     <section>
       <h2>Einsatzmöglichkeiten</h2>
-      <p><?php echo renderRichText($einsatzText); ?></p>
+      <div><?php echo renderRichText($einsatzText); ?></div>
       <p><a href="/projekte.php">Konkrete Einsätze in unseren Projekten ansehen &rarr;</a></p>
     </section>
 
     <section>
       <h2>Warum Hunde?</h2>
-      <p><?php echo renderRichText($warumHundeText); ?></p>
+      <div><?php echo renderRichText($warumHundeText); ?></div>
     </section>
   </main>
 

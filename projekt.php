@@ -34,7 +34,7 @@ if ($project === null) {
         <span class="teaser-badge"><?php echo htmlspecialchars(PROJECT_STATUSES[$project['status']] ?? $project['status']); ?></span>
       <?php endif; ?>
       <h1><?php echo htmlspecialchars($project['title']); ?></h1>
-      <p><?php echo renderRichText($project['content'] ?? ''); ?></p>
+      <div><?php echo renderRichText($project['content'] ?? ''); ?></div>
     <?php endif; ?>
   </main>
 

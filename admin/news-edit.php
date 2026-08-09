@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php echo $id > 0 ? 'Beitrag bearbeiten' : 'Neuer Beitrag'; ?> &ndash; Naturschutzsp&uuml;rhunde Admin</title>
   <link rel="stylesheet" href="../assets/css/variables.css">
-  <link rel="stylesheet" href="../assets/css/wysiwyg.css">
+  <link rel="stylesheet" href="../assets/css/block-editor.css">
   <style>
     body { font-family: var(--font-text); margin: 0; background: var(--color-neutral-cream); }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; }
@@ -167,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   </div>
 
-  <script src="../assets/js/wysiwyg.js"></script>
+  <script src="../assets/js/block-editor.js"></script>
   <script>
     var categories = <?php echo json_encode(NEWS_CATEGORIES); ?>;
 
@@ -181,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       document.getElementById('previewDate').textContent = e.target.value;
     });
     document.getElementById('content').addEventListener('input', function (e) {
-      document.getElementById('previewContent').innerHTML = e.target.value;
+      document.getElementById('previewContent').innerHTML = renderBlocksToHtml(e.target.value);
     });
     document.getElementById('image').addEventListener('change', function (e) {
       var file = e.target.files[0];
@@ -193,7 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       img.style.display = '';
     });
 
-    initWysiwyg('content');
+    initBlockEditor('content');
   </script>
 </body>
 </html>

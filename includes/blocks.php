@@ -71,6 +71,30 @@ function isBlockJson(string $raw): bool
     return is_array($decoded);
 }
 
+function blockListToPlainText(array $blocks): string
+{
+    $parts = [];
+    foreach (sanitizeBlocks($blocks) as $block) {
+        switch ($block['type']) {
+            case 'paragraph':
+            case 'heading':
+            case 'quote':
+                $text = trim(strip_tags($block['content']));
+                if ($text !== '') {
+                    $parts[] = $text;
+                }
+                break;
+            case 'list':
+                $text = trim(implode(', ', $block['items']));
+                if ($text !== '') {
+                    $parts[] = $text;
+                }
+                break;
+        }
+    }
+    return implode(' ', $parts);
+}
+
 function renderBlockList(array $blocks): string
 {
     $html = '';

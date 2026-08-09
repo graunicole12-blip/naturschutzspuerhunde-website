@@ -44,7 +44,7 @@ $weiterbildungText = getContentBlock($pageKey, $weiterbildungKey, '');
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ausbildung &ndash; Naturschutzsp&uuml;rhunde Admin</title>
   <link rel="stylesheet" href="../assets/css/variables.css">
-  <link rel="stylesheet" href="../assets/css/wysiwyg.css">
+  <link rel="stylesheet" href="../assets/css/block-editor.css">
   <style>
     body { font-family: var(--font-text); margin: 0; background: var(--color-neutral-cream); }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; }
@@ -88,12 +88,12 @@ $weiterbildungText = getContentBlock($pageKey, $weiterbildungKey, '');
     </form>
   </div>
 
-  <script src="../assets/js/wysiwyg.js"></script>
+  <script src="../assets/js/block-editor.js"></script>
   <script>
-    initWysiwyg('qualitaetsstandards_text');
-    initWysiwyg('internationale_zusammenarbeit_text');
-    initWysiwyg('assessments_text');
-    initWysiwyg('weiterbildung_text');
+    initBlockEditor('qualitaetsstandards_text');
+    initBlockEditor('internationale_zusammenarbeit_text');
+    initBlockEditor('assessments_text');
+    initBlockEditor('weiterbildung_text');
   </script>
 </body>
 </html>

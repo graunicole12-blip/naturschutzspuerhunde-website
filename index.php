@@ -34,13 +34,13 @@ $activeDogs = getActiveDogs();
 
     <section>
       <h1>Vision</h1>
-      <p><?php echo renderRichText($vision); ?></p>
+      <div><?php echo renderRichText($vision); ?></div>
       <p><a href="/ueber-uns.php">Mehr über uns &rarr;</a></p>
     </section>
 
     <section>
       <h2>Was sind Naturschutzspürhunde?</h2>
-      <p><?php echo renderRichText($nshText); ?></p>
+      <div><?php echo renderRichText($nshText); ?></div>
       <p><a href="/naturschutzspuerhunde.php">Mehr erfahren &rarr;</a></p>
     </section>
 
@@ -56,7 +56,7 @@ $activeDogs = getActiveDogs();
                 <img src="/uploads/<?php echo htmlspecialchars($project['image']); ?>" alt="">
               <?php endif; ?>
               <h3><?php echo htmlspecialchars($project['title']); ?></h3>
-              <p><?php echo htmlspecialchars(mb_strimwidth(trim(strip_tags($project['content'] ?? '')), 0, 140, '…')); ?></p>
+              <p><?php echo htmlspecialchars(mb_strimwidth(renderPlainText($project['content'] ?? ''), 0, 140, '…')); ?></p>
             </a>
           <?php endforeach; ?>
         </div>
@@ -94,7 +94,7 @@ $activeDogs = getActiveDogs();
 
   <section class="cta-section">
     <h2>Unterstützen</h2>
-    <p><?php echo renderRichText($ctaText); ?></p>
+    <div><?php echo renderRichText($ctaText); ?></div>
     <a class="cta-button" href="<?php echo htmlspecialchars($ctaLink); ?>" target="_blank" rel="noopener">Jetzt unterstützen</a>
     <p style="margin-top:12px;"><a href="/unterstuetzen.php" style="color:var(--color-neutral-tan);">Alle Unterstützungswege ansehen &rarr;</a></p>
   </section>
