@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <main style="max-width:900px;margin:0 auto;padding:24px;">
     <h1>Kontakt</h1>
-    <p>Hast du eine Frage, ein Presseanliegen oder möchtest du uns unterstützen? Schreib uns eine Nachricht oder direkt an <a href="mailto:<?php echo htmlspecialchars(CONTACT_RECIPIENT); ?>"><?php echo htmlspecialchars(CONTACT_RECIPIENT); ?></a>.</p>
+    <p>Hast du eine Frage, ein Presseanliegen oder möchtest du uns unterstützen? Schreib uns eine Nachricht oder direkt an <span id="contact-email">E-Mail wird geladen…</span>.</p>
 
     <?php if ($sent): ?>
       <p>Danke für deine Nachricht! Wir melden uns so bald wie möglich.</p>
@@ -90,5 +90,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </main>
 
   <?php require __DIR__ . '/includes/footer.php'; ?>
+
+  <script>
+    (function () {
+      var codes = <?php echo json_encode(array_map('mb_ord', mb_str_split(CONTACT_RECIPIENT))); ?>;
+      var address = String.fromCharCode.apply(null, codes);
+      var container = document.getElementById('contact-email');
+      var link = document.createElement('a');
+      link.href = 'mailto:' + address;
+      link.textContent = address;
+      container.textContent = '';
+      container.appendChild(link);
+    })();
+  </script>
 </body>
 </html>
