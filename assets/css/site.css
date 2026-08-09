@@ -163,6 +163,41 @@ a {
   background: var(--color-accent-rust);
 }
 
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 16px;
+}
+
+.contact-form label {
+  font-size: 13px;
+  color: var(--color-secondary-khaki);
+  margin-top: 12px;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  font-family: var(--font-text);
+  font-size: 14px;
+  padding: 8px;
+  border: 1px solid var(--color-neutral-tan);
+  border-radius: 6px;
+}
+
+.contact-form button {
+  border: none;
+  cursor: pointer;
+  margin-top: 16px;
+  align-self: flex-start;
+}
+
+.contact-honeypot {
+  position: absolute;
+  left: -9999px;
+}
+
 .site-footer {
   background: var(--color-primary-dark);
   color: var(--color-neutral-tan);
