@@ -62,6 +62,26 @@ function heroImageAlignStyle(string $align): string
     }
 }
 
+function clampFocusPoint(?string $raw, float $default = 50.0): float
+{
+    $raw = trim($raw ?? '');
+    if ($raw === '' || !is_numeric($raw)) {
+        return $default;
+    }
+
+    $value = (float) $raw;
+    if ($value < 0 || $value > 100) {
+        return $default;
+    }
+
+    return round($value, 2);
+}
+
+function focusPointObjectPositionStyle(float $focusX, float $focusY): string
+{
+    return 'object-position:' . $focusX . '% ' . $focusY . '%;';
+}
+
 function renderPlainText(?string $raw): string
 {
     $raw = $raw ?? '';
