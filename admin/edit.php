@@ -12,6 +12,7 @@ $pageKey = 'startseite';
 $textBlockKey = 'vision';
 $nshBlockKey = 'nsh_text';
 $imageBlockKey = 'hero_image';
+$heroImageMaxHeightKey = 'hero_image_max_height';
 $ausbildungTeaserBlockKey = 'ausbildung_teaser_text';
 $ctaTextBlockKey = 'cta_text';
 $ctaLinkBlockKey = 'cta_link';
@@ -40,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $projekteAnzahl = clampCardLimit($_POST['projekte_anzahl'] ?? null);
     $hundeAnzahl = clampCardLimit($_POST['hunde_anzahl'] ?? null);
     $newsAnzahl = clampCardLimit($_POST['news_anzahl'] ?? null);
+    $heroImageMaxHeight = clampCardLimit($_POST['hero_image_max_height'] ?? null, 480, 100, 1200);
     $stmt = getDb()->prepare(
         'INSERT INTO content_blocks (page_key, block_key, content) VALUES (?, ?, ?)
          ON DUPLICATE KEY UPDATE content = VALUES(content)'
@@ -52,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$pageKey, $projekteAnzahlKey, (string) $projekteAnzahl]);
     $stmt->execute([$pageKey, $hundeAnzahlKey, (string) $hundeAnzahl]);
     $stmt->execute([$pageKey, $newsAnzahlKey, (string) $newsAnzahl]);
+    $stmt->execute([$pageKey, $heroImageMaxHeightKey, (string) $heroImageMaxHeight]);
 
     $uploadResult = handleImageUpload($_FILES['hero_image'] ?? [], __DIR__ . '/../uploads');
     if ($uploadResult['error'] !== null) {
@@ -63,8 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = $error === '' ? 'Gespeichert.' : '';
 }
 
-$stmt = getDb()->prepare('SELECT block_key, content FROM content_blocks WHERE page_key = ? AND block_key IN (?, ?, ?, ?, ?, ?, ?, ?, ?)');
-$stmt->execute([$pageKey, $textBlockKey, $nshBlockKey, $imageBlockKey, $ausbildungTeaserBlockKey, $ctaTextBlockKey, $ctaLinkBlockKey, $projekteAnzahlKey, $hundeAnzahlKey, $newsAnzahlKey]);
+$stmt = getDb()->prepare('SELECT block_key, content FROM content_blocks WHERE page_key = ? AND block_key IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+$stmt->execute([$pageKey, $textBlockKey, $nshBlockKey, $imageBlockKey, $ausbildungTeaserBlockKey, $ctaTextBlockKey, $ctaLinkBlockKey, $projekteAnzahlKey, $hundeAnzahlKey, $newsAnzahlKey, $heroImageMaxHeightKey]);
 $blocks = [];
 foreach ($stmt->fetchAll() as $row) {
     $blocks[$row['block_key']] = $row['content'];
@@ -78,6 +81,7 @@ $currentCtaLink = $blocks[$ctaLinkBlockKey] ?? '';
 $currentProjekteAnzahl = clampCardLimit($blocks[$projekteAnzahlKey] ?? null);
 $currentHundeAnzahl = clampCardLimit($blocks[$hundeAnzahlKey] ?? null);
 $currentNewsAnzahl = clampCardLimit($blocks[$newsAnzahlKey] ?? null);
+$currentHeroImageMaxHeight = clampCardLimit($blocks[$heroImageMaxHeightKey] ?? null, 480, 100, 1200);
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -147,6 +151,10 @@ $currentNewsAnzahl = clampCardLimit($blocks[$newsAnzahlKey] ?? null);
           <button type="submit" name="delete_image" value="1" class="delete-image-btn" formnovalidate onclick="return confirm('Hero-Bild wirklich löschen?');">Bild löschen</button>
         <?php endif; ?>
 
+        <label for="hero_image_max_height">Hero-Bild &ndash; maximale H&ouml;he (px)</label>
+        <input type="number" id="hero_image_max_height" name="hero_image_max_height" min="100" max="1200" value="<?php echo (int) $currentHeroImageMaxHeight; ?>">
+        <p class="hint">Erlaubter Bereich: 100&ndash;1200px. Bild bleibt proportional, Breite bleibt responsiv. Ungültige Eingaben werden beim Speichern auf 480px zurückgesetzt.</p>
+
         <label for="ausbildung_teaser_text">Ausbildung &ndash; Kurztext (Startseiten-Teaser)</label>
         <textarea id="ausbildung_teaser_text" name="ausbildung_teaser_text" placeholder="Kurztext f&uuml;r den Ausbildung-Teaser auf der Startseite..."><?php echo htmlspecialchars($currentAusbildungTeaserText); ?></textarea>
 
@@ -173,7 +181,7 @@ $currentNewsAnzahl = clampCardLimit($blocks[$newsAnzahlKey] ?? null);
     <div class="preview-panel">
       <p class="preview-label">Vorschau &ndash; so erscheint es auf der Webseite</p>
       <div class="preview-card">
-        <img id="previewImage" src="<?php echo $currentImage !== '' ? '/uploads/' . htmlspecialchars($currentImage) : ''; ?>" alt="" style="<?php echo $currentImage !== '' ? '' : 'display:none;'; ?>">
+        <img id="previewImage" src="<?php echo $currentImage !== '' ? '/uploads/' . htmlspecialchars($currentImage) : ''; ?>" alt="" style="<?php echo $currentImage !== '' ? '' : 'display:none;'; ?>max-height:<?php echo (int) $currentHeroImageMaxHeight; ?>px;">
         <h2>Vision</h2>
         <p id="previewText"><?php echo htmlspecialchars($currentText); ?></p>
         <h2>Was sind Naturschutzsp&uuml;rhunde?</h2>
@@ -203,6 +211,12 @@ $currentNewsAnzahl = clampCardLimit($blocks[$newsAnzahlKey] ?? null);
     });
     document.getElementById('cta_link').addEventListener('input', function (e) {
       document.getElementById('previewCtaButton').href = e.target.value;
+    });
+    document.getElementById('hero_image_max_height').addEventListener('input', function (e) {
+      var value = parseInt(e.target.value, 10);
+      if (!isNaN(value) && value > 0) {
+        document.getElementById('previewImage').style.maxHeight = value + 'px';
+      }
     });
     document.getElementById('hero_image').addEventListener('change', function (e) {
       var file = e.target.files[0];
