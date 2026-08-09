@@ -4,7 +4,7 @@ require __DIR__ . '/includes/auth.php';
 require __DIR__ . '/../includes/db.php';
 require __DIR__ . '/../includes/upload.php';
 require __DIR__ . '/../includes/sanitize-html.php';
-require __DIR__ . '/../includes/blocks.php';
+require __DIR__ . '/../includes/content.php';
 
 requireLogin();
 
@@ -174,8 +174,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <span class="preview-badge" id="previewStatus"><?php echo $isActive ? 'Aktiv' : 'Wegbereiterin'; ?></span>
         <h2 id="previewName"><?php echo htmlspecialchars($name !== '' ? $name : 'Name des Hundes'); ?></h2>
         <p class="preview-meta" id="previewEinsatzgebiet"><?php echo htmlspecialchars($einsatzgebiet); ?></p>
-        <p id="previewCharakter"><?php echo htmlspecialchars($charakter); ?></p>
-        <p id="previewBio"><?php echo htmlspecialchars($bio); ?></p>
+        <p id="previewCharakter"><?php echo renderRichText($charakter); ?></p>
+        <p id="previewBio"><?php echo renderRichText($bio); ?></p>
       </div>
     </div>
   </div>

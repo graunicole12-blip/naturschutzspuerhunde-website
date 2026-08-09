@@ -195,13 +195,13 @@ $currentHeroImageAlign = clampAlignment($blocks[$heroImageAlignKey] ?? null);
       <div class="preview-card">
         <img id="previewImage" src="<?php echo $currentImage !== '' ? '/uploads/' . htmlspecialchars($currentImage) : ''; ?>" alt="" style="<?php echo $currentImage !== '' ? '' : 'display:none;'; ?>max-height:<?php echo (int) $currentHeroImageMaxHeight; ?>px;<?php echo heroImageAlignStyle($currentHeroImageAlign); ?>">
         <h2>Vision</h2>
-        <p id="previewText"><?php echo htmlspecialchars($currentText); ?></p>
+        <p id="previewText"><?php echo renderRichText($currentText); ?></p>
         <h2>Was sind Naturschutzsp&uuml;rhunde?</h2>
-        <p id="previewNshText"><?php echo htmlspecialchars($currentNshText); ?></p>
+        <p id="previewNshText"><?php echo renderRichText($currentNshText); ?></p>
         <h2>Ausbildung</h2>
-        <p id="previewAusbildungTeaserText"><?php echo htmlspecialchars($currentAusbildungTeaserText); ?></p>
+        <p id="previewAusbildungTeaserText"><?php echo renderRichText($currentAusbildungTeaserText); ?></p>
         <h2>Unterst&uuml;tzen</h2>
-        <p id="previewCtaText"><?php echo htmlspecialchars($currentCtaText); ?></p>
+        <p id="previewCtaText"><?php echo renderRichText($currentCtaText); ?></p>
         <a id="previewCtaButton" class="cta-button" href="<?php echo htmlspecialchars($currentCtaLink); ?>" target="_blank" rel="noopener">Jetzt unterst&uuml;tzen</a>
       </div>
     </div>
