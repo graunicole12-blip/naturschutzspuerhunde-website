@@ -14,6 +14,8 @@ $nshBlockKey = 'nsh_text';
 $imageBlockKey = 'hero_image';
 $heroImageMaxHeightKey = 'hero_image_max_height';
 $heroImageAlignKey = 'hero_image_align';
+$heroImageFocusXKey = 'hero_image_focus_x';
+$heroImageFocusYKey = 'hero_image_focus_y';
 $ausbildungTeaserBlockKey = 'ausbildung_teaser_text';
 $ctaTextBlockKey = 'cta_text';
 $ctaLinkBlockKey = 'cta_link';
@@ -44,6 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newsAnzahl = clampCardLimit($_POST['news_anzahl'] ?? null);
     $heroImageMaxHeight = clampCardLimit($_POST['hero_image_max_height'] ?? null, 480, 100, 1200);
     $heroImageAlign = clampAlignment($_POST['hero_image_align'] ?? null);
+    $heroImageFocusX = clampFocusPoint($_POST['hero_image_focus_x'] ?? null);
+    $heroImageFocusY = clampFocusPoint($_POST['hero_image_focus_y'] ?? null);
     $stmt = getDb()->prepare(
         'INSERT INTO content_blocks (page_key, block_key, content) VALUES (?, ?, ?)
          ON DUPLICATE KEY UPDATE content = VALUES(content)'
@@ -58,6 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$pageKey, $newsAnzahlKey, (string) $newsAnzahl]);
     $stmt->execute([$pageKey, $heroImageMaxHeightKey, (string) $heroImageMaxHeight]);
     $stmt->execute([$pageKey, $heroImageAlignKey, $heroImageAlign]);
+    $stmt->execute([$pageKey, $heroImageFocusXKey, formatFocusPoint($heroImageFocusX)]);
+    $stmt->execute([$pageKey, $heroImageFocusYKey, formatFocusPoint($heroImageFocusY)]);
 
     $uploadResult = handleImageUpload($_FILES['hero_image'] ?? [], __DIR__ . '/../uploads');
     if ($uploadResult['error'] !== null) {
@@ -69,8 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = $error === '' ? 'Gespeichert.' : '';
 }
 
-$stmt = getDb()->prepare('SELECT block_key, content FROM content_blocks WHERE page_key = ? AND block_key IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-$stmt->execute([$pageKey, $textBlockKey, $nshBlockKey, $imageBlockKey, $ausbildungTeaserBlockKey, $ctaTextBlockKey, $ctaLinkBlockKey, $projekteAnzahlKey, $hundeAnzahlKey, $newsAnzahlKey, $heroImageMaxHeightKey, $heroImageAlignKey]);
+$stmt = getDb()->prepare('SELECT block_key, content FROM content_blocks WHERE page_key = ? AND block_key IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+$stmt->execute([$pageKey, $textBlockKey, $nshBlockKey, $imageBlockKey, $ausbildungTeaserBlockKey, $ctaTextBlockKey, $ctaLinkBlockKey, $projekteAnzahlKey, $hundeAnzahlKey, $newsAnzahlKey, $heroImageMaxHeightKey, $heroImageAlignKey, $heroImageFocusXKey, $heroImageFocusYKey]);
 $blocks = [];
 foreach ($stmt->fetchAll() as $row) {
     $blocks[$row['block_key']] = $row['content'];
@@ -86,6 +92,8 @@ $currentHundeAnzahl = clampCardLimit($blocks[$hundeAnzahlKey] ?? null);
 $currentNewsAnzahl = clampCardLimit($blocks[$newsAnzahlKey] ?? null);
 $currentHeroImageMaxHeight = clampCardLimit($blocks[$heroImageMaxHeightKey] ?? null, 480, 100, 1200);
 $currentHeroImageAlign = clampAlignment($blocks[$heroImageAlignKey] ?? null);
+$currentHeroImageFocusX = clampFocusPoint($blocks[$heroImageFocusXKey] ?? null);
+$currentHeroImageFocusY = clampFocusPoint($blocks[$heroImageFocusYKey] ?? null);
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -95,6 +103,7 @@ $currentHeroImageAlign = clampAlignment($blocks[$heroImageAlignKey] ?? null);
   <title>Startseite bearbeiten &ndash; Naturschutzsp&uuml;rhunde Admin</title>
   <link rel="stylesheet" href="../assets/css/variables.css">
   <link rel="stylesheet" href="../assets/css/block-editor.css">
+  <link rel="stylesheet" href="../assets/css/focus-point.css">
   <style>
     body { font-family: var(--font-text); margin: 0; background: var(--color-neutral-cream); }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; }
@@ -147,7 +156,12 @@ $currentHeroImageAlign = clampAlignment($blocks[$heroImageAlignKey] ?? null);
 
         <label for="hero_image">Hero-Bild</label>
         <?php if ($currentImage !== ''): ?>
-          <img class="current-image" src="/uploads/<?php echo htmlspecialchars($currentImage); ?>" alt="Aktuelles Hero-Bild">
+          <div id="heroFocusContainer">
+            <img id="heroFocusImage" class="current-image" src="/uploads/<?php echo htmlspecialchars($currentImage); ?>" alt="Aktuelles Hero-Bild">
+          </div>
+          <p class="focus-point-hint">Auf das Bild klicken, um den Fokuspunkt zu setzen (wirkt sich v.a. auf schmalen Bildschirmen aus).</p>
+          <input type="hidden" id="hero_image_focus_x" name="hero_image_focus_x" value="<?php echo htmlspecialchars(formatFocusPoint($currentHeroImageFocusX)); ?>">
+          <input type="hidden" id="hero_image_focus_y" name="hero_image_focus_y" value="<?php echo htmlspecialchars(formatFocusPoint($currentHeroImageFocusY)); ?>">
         <?php endif; ?>
         <input type="file" id="hero_image" name="hero_image" accept="image/jpeg,image/png,image/webp">
         <p class="hint">JPEG, PNG oder WebP, max. 5 MB.</p>
@@ -208,6 +222,7 @@ $currentHeroImageAlign = clampAlignment($blocks[$heroImageAlignKey] ?? null);
   </div>
 
   <script src="../assets/js/block-editor.js"></script>
+  <script src="../assets/js/focus-point.js"></script>
   <script>
     document.getElementById('content').addEventListener('input', function (e) {
       document.getElementById('previewText').innerHTML = renderBlocksToHtml(e.target.value);
@@ -246,6 +261,20 @@ $currentHeroImageAlign = clampAlignment($blocks[$heroImageAlignKey] ?? null);
       img.src = URL.createObjectURL(file);
       img.style.display = '';
     });
+
+    var heroFocusContainer = document.getElementById('heroFocusContainer');
+    if (heroFocusContainer) {
+      initFocusPoint(
+        heroFocusContainer,
+        document.getElementById('heroFocusImage'),
+        <?php echo json_encode($currentHeroImageFocusX); ?>,
+        <?php echo json_encode($currentHeroImageFocusY); ?>,
+        function (x, y) {
+          document.getElementById('hero_image_focus_x').value = x;
+          document.getElementById('hero_image_focus_y').value = y;
+        }
+      );
+    }
 
     initBlockEditor('content');
     initBlockEditor('nsh_text');
