@@ -130,3 +130,22 @@ input.block-editor-field {
 .block-editor-list-field textarea.block-editor-field {
   min-height: 80px;
 }
+
+.block-editor-image-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.block-editor-image-preview {
+  max-width: 100%;
+  max-height: 240px;
+  border-radius: 6px;
+  display: block;
+}
+
+.block-editor-image-status {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-secondary-khaki);
+}
