@@ -5,6 +5,7 @@ checkMaintenanceMode();
 require __DIR__ . '/includes/content.php';
 require __DIR__ . '/includes/projects.php';
 require __DIR__ . '/includes/news.php';
+require __DIR__ . '/includes/dogs.php';
 $vision = getContentBlock('startseite', 'vision', 'Vision folgt in Kürze.');
 $nshText = getContentBlock('startseite', 'nsh_text', 'Naturschutzspürhunde sind speziell ausgebildete Hunde, die dank ihrer feinen Nase seltene, bedrohte oder invasive Arten aufspüren – schnell, zuverlässig und ohne die Natur zu stören. So unterstützen sie Naturschutzorganisationen dabei, wichtige Daten für den Schutz unserer Umwelt zu sammeln.');
 $heroImage = getContentBlock('startseite', 'hero_image', '');
@@ -12,6 +13,7 @@ $ctaText = getContentBlock('startseite', 'cta_text', 'Unterstütze unser Crowdfu
 $ctaLink = getContentBlock('startseite', 'cta_link', 'https://www.lokalhelden.ch/naturschutzhunde');
 $featuredProjects = getFeaturedProjects();
 $latestNews = getLatestNews();
+$activeDogs = getActiveDogs();
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -57,6 +59,28 @@ $latestNews = getLatestNews();
             </a>
           <?php endforeach; ?>
         </div>
+      <?php endif; ?>
+    </section>
+
+    <section>
+      <h2>Unsere Hunde</h2>
+      <?php if (empty($activeDogs)): ?>
+        <p class="teaser-empty">Unsere Hundeprofile werden hier in Kürze vorgestellt.</p>
+      <?php else: ?>
+        <div class="teaser-grid">
+          <?php foreach ($activeDogs as $dog): ?>
+            <a class="teaser-card" href="/unsere-hunde.php" style="display:block;text-decoration:none;color:inherit;">
+              <?php if (!empty($dog['image'])): ?>
+                <img src="/uploads/<?php echo htmlspecialchars($dog['image']); ?>" alt="">
+              <?php endif; ?>
+              <h3><?php echo htmlspecialchars($dog['name']); ?></h3>
+              <?php if (!empty($dog['einsatzgebiet'])): ?>
+                <p><em><?php echo htmlspecialchars($dog['einsatzgebiet']); ?></em></p>
+              <?php endif; ?>
+            </a>
+          <?php endforeach; ?>
+        </div>
+        <p><a href="/unsere-hunde.php">Alle Hunde kennenlernen &rarr;</a></p>
       <?php endif; ?>
     </section>
   </main>
